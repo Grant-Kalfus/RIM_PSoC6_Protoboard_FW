@@ -34,6 +34,9 @@
     #define CMD_QUEUED 0x01
     #define CMD_RUNNING 0x02
 
+
+
+
     #define L6470_NOT_BUSY 0x00
     #define L6470_BUSY 0x01
 
@@ -57,6 +60,16 @@
     #define RIM_OP_ERROR               0x50
 
     #define RIM_OP_MOTOR_EXTENDED_STEP 0x80
+
+	//RIM Opcode Specials
+
+	//For RIM_OP_MOTOR_STOP
+	#define ONE_SSTOP 0x00
+	#define ONE_HSTOP 0x01
+	#define ALL_SSTOP 0x02
+	#define ALL_HSTOP 0x03
+
+
 
     //CUI Encoder Constants
     #define CUI_NOP 0x00

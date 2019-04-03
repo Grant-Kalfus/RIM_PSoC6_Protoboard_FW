@@ -90,6 +90,11 @@ void Interrupt_Handler_UART(void)
                 }
                 break;
 
+            case RIM_OP_MOTOR_STOP:
+            	cur_motor_id = received_uart_char & RIM_MOTOR_ID;
+                RIM_Motors[cur_motor_id].command_type = RIM_OP_MOTOR_STOP;
+                break;
+
             case RIM_OP_MOTOR_STATUS:
                 cur_motor_id = received_uart_char & RIM_MOTOR_ID;
                 if(RIM_Motors[cur_motor_id].is_busy)
@@ -105,8 +110,6 @@ void Interrupt_Handler_UART(void)
                 else
                     RIM_Encoders[cur_motor_id].command_type = RIM_OP_ENCODER_INFO;
                 break;
-
-
         }
 
 
@@ -120,6 +123,10 @@ void Interrupt_Handler_UART(void)
             case RIM_OP_MOTOR_RUN:
                 RIM_Motors[cur_motor_id].steps |= received_uart_char;
                 break;
+            //If the LSB of the number is FF, then the UI has issued an ALL_STOP command
+            case RIM_OP_MOTOR_STOP:
+            	RIM_Motors[cur_motor_id].steps |= received_uart_char;
+            	break;
             case RIM_OP_MOTOR_STATUS:
                 break;
             case RIM_OP_ENCODER_INFO:
@@ -140,6 +147,8 @@ void Interrupt_Handler_UART(void)
                 RIM_Motors[cur_motor_id].steps |= ((uint16)received_uart_char << 8);
                 RIM_Motors[cur_motor_id].is_busy = L6470_NOT_BUSY;
                 RIM_Motors[cur_motor_id].received_cmd = CMD_QUEUED;
+                break;
+            case RIM_OP_MOTOR_STOP:
                 break;
             case RIM_OP_MOTOR_STATUS:
                 RIM_Motors[cur_motor_id].is_busy = L6470_NOT_BUSY;
@@ -322,6 +331,44 @@ int main(void)
     	                        Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_RUN | i);
     	                    }
     	                    break;
+    	                case RIM_OP_MOTOR_STOP:
+    	                	//If the ALL STOP has been issued:
+    	                	if(RIM_Motors[i].steps == ALL_HSTOP || RIM_Motors[i].steps == ALL_SSTOP)
+    	                	{
+    	                		int j = 0;
+
+    	                		for(j = 0; j < CURRENTLY_CONNECTED_MOTORS; j++)
+    	                		{
+        	                		if(RIM_Motors[i].steps == ALL_HSTOP)
+        	                			transfer(HARD_STOP, RIM_Motors[j].enable_id);
+        	                		else
+        	                			transfer(SOFT_STOP, RIM_Motors[j].enable_id);
+    	                		}
+
+    	                		for(j = 0; j < CURRENTLY_CONNECTED_MOTORS; j++)
+    	                		{
+    	                			while(check_busy(j));
+        	                		RIM_Motors[j].is_busy = L6470_NOT_BUSY;
+        	                		RIM_Motors[j].received_cmd = CMD_NONE;
+        	                		RIM_Motors[j].steps = 0;
+        	                		Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_STOP | j);
+    	                		}
+    	                	}
+    	                	else
+    	                	{
+    	                		if(RIM_Motors[i].steps == ONE_HSTOP)
+    	                			transfer(HARD_STOP, RIM_Motors[i].enable_id);
+    	                		else
+    	                			transfer(SOFT_STOP, RIM_Motors[i].enable_id);
+
+    	                		while(check_busy(i));
+    	                		RIM_Motors[i].is_busy = L6470_NOT_BUSY;
+    	                		RIM_Motors[i].received_cmd = CMD_NONE;
+    	                		RIM_Motors[i].steps = 0;
+    	                		Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_STOP | i);
+    	                	}
+    	                	break;
+
     	                //If command is asking for the motor status register
     	                case RIM_OP_MOTOR_STATUS:
     	                    if (RIM_Motors[i].received_cmd == CMD_QUEUED)
@@ -340,8 +387,6 @@ int main(void)
     	                        RIM_Motors[i].received_cmd = CMD_NONE;
     	                    }
     	                    break;
-
-
     	                default:
     	                    break;
     	            }
