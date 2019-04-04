@@ -125,7 +125,7 @@ void Interrupt_Handler_UART(void)
                 break;
             //If the LSB of the number is FF, then the UI has issued an ALL_STOP command
             case RIM_OP_MOTOR_STOP:
-            	RIM_Motors[cur_motor_id].steps |= received_uart_char;
+            	RIM_Motors[cur_motor_id].steps = received_uart_char;
             	break;
             case RIM_OP_MOTOR_STATUS:
                 break;
