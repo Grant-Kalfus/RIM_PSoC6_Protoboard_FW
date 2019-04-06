@@ -81,8 +81,8 @@ void Interrupt_Handler_UART(void)
                 cur_motor_id = received_uart_char & RIM_MOTOR_ID;
 
                 //Make sure there will be no command overlap
-                if(RIM_Motors[cur_motor_id].is_busy)
-                    cur_bit_field = -1;
+                if(!RIM_Motors[cur_motor_id].received_cmd == CMD_NONE)
+                    cur_bit_field = 0;
                 else
                 {
                     RIM_Motors[cur_motor_id].motor_dir = cmd_bytes[0] >> 3;
@@ -97,16 +97,28 @@ void Interrupt_Handler_UART(void)
 
             case RIM_OP_MOTOR_STATUS:
                 cur_motor_id = received_uart_char & RIM_MOTOR_ID;
-                if(RIM_Motors[cur_motor_id].is_busy)
-                    cur_bit_field = -1;
+                if(!RIM_Motors[cur_motor_id].received_cmd == CMD_NONE)
+                    cur_bit_field = 0;
                 else
                     RIM_Motors[cur_motor_id].command_type = RIM_OP_MOTOR_STATUS;
                 break;
 
+            //Direction bit used for GET / SET
+            case RIM_OP_MOTOR_GETSET_PARAM:
+            	cur_motor_id = received_uart_char & RIM_MOTOR_ID;
+            	if(!RIM_Motors[cur_motor_id].received_cmd == CMD_NONE)
+                    cur_bit_field = 0;
+                else
+                {
+                    RIM_Motors[cur_motor_id].motor_dir = cmd_bytes[0] >> 3;
+                    RIM_Motors[cur_motor_id].command_type = RIM_OP_MOTOR_GETSET_PARAM;
+                }
+            	break;
+
             case RIM_OP_ENCODER_INFO:
                 cur_motor_id = received_uart_char & RIM_MOTOR_ID;
                 if(RIM_Encoders[cur_motor_id].is_busy)
-                    cur_bit_field = -1;
+                    cur_bit_field = 0;
                 else
                     RIM_Encoders[cur_motor_id].command_type = RIM_OP_ENCODER_INFO;
                 break;
@@ -129,6 +141,10 @@ void Interrupt_Handler_UART(void)
             	break;
             case RIM_OP_MOTOR_STATUS:
                 break;
+            //Steps is the argument for the parameter
+            case RIM_OP_MOTOR_GETSET_PARAM:
+            	RIM_Motors[cur_motor_id].steps |= received_uart_char;
+            	break;
             case RIM_OP_ENCODER_INFO:
                 break;
         }
@@ -154,6 +170,11 @@ void Interrupt_Handler_UART(void)
                 RIM_Motors[cur_motor_id].is_busy = L6470_NOT_BUSY;
                 RIM_Motors[cur_motor_id].received_cmd = CMD_QUEUED;
                 break;
+            case RIM_OP_MOTOR_GETSET_PARAM:
+            	RIM_Motors[cur_motor_id].steps |= ((uint16)received_uart_char << 8);
+                RIM_Motors[cur_motor_id].is_busy = L6470_NOT_BUSY;
+                RIM_Motors[cur_motor_id].received_cmd = CMD_QUEUED;
+            	break;
             case RIM_OP_ENCODER_INFO:
                 RIM_Encoders[cur_motor_id].is_busy = L6470_NOT_BUSY;
                 RIM_Encoders[cur_motor_id].received_cmd = CMD_QUEUED;
@@ -243,7 +264,7 @@ int main(void)
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
+    set_param((STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1), RIM_Motors[1].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[1].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[1].enable_id);
     set_param(ACC, acc_calc(35), RIM_Motors[1].enable_id);
@@ -387,6 +408,33 @@ int main(void)
     	                        RIM_Motors[i].received_cmd = CMD_NONE;
     	                    }
     	                    break;
+/*
+    	                case RIM_OP_MOTOR_GETSET_PARAM:
+
+    	                	if (RIM_Motors[i].received_cmd == CMD_QUEUED)
+    	                    {
+    	                        RIM_Motors[i].received_cmd = CMD_RUNNING;
+    	                        uint16 cmd_params = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_DATA;
+    	                        byte cmd_type     = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_TYPE >> 11;
+
+
+
+
+
+    	                        //One byte information that tells the PC that a motor 1 is running
+    	                        // --mod from PSoC4--
+    	                        Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_GETSET_PARAM | i);
+    	                        RIM_UI_cmd_temp = get_param(RIM_Motors[i].enable_id);
+    	                        cmd_content[0] = RIM_UI_cmd_temp;
+    	                        cmd_content[1] = RIM_UI_cmd_temp >> 8;
+
+    	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);
+
+    	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[1]);
+    	                        RIM_Motors[i].received_cmd = CMD_NONE;
+    	                    }
+*/
+    	                	break;
     	                default:
     	                    break;
     	            }

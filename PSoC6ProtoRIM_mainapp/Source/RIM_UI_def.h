@@ -54,7 +54,7 @@
     //RIM OpCodes
     #define RIM_OP_MOTOR_RUN           0x00
     #define RIM_OP_MOTOR_STOP          0x10
-    #define RIM_OP_MOTOR_SET_PARAM     0x20
+    #define RIM_OP_MOTOR_GETSET_PARAM  0x20
     #define RIM_OP_MOTOR_STATUS        0x30
     #define RIM_OP_ENCODER_INFO        0x40
     #define RIM_OP_ERROR               0x50
@@ -69,7 +69,13 @@
 	#define ALL_SSTOP 0x02
 	#define ALL_HSTOP 0x03
 
+	//For RIM_GETSET_PARAM
+	#define GETSET_GET_PARAM 0x00
+	#define GETSET_SET_PARAM 0x01
 
+	#define GETSET_RECIEVED_PARAM_DATA 0x07FF
+	#define GETSET_RECIEVED_PARAM_TYPE 0xF800
+	#define GETSET_RECIEVED_ACCESSOR 0x04
 
     //CUI Encoder Constants
     #define CUI_NOP 0x00
