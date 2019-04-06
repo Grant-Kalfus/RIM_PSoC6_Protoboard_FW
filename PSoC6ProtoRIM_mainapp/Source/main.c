@@ -408,7 +408,7 @@ int main(void)
     	                        RIM_Motors[i].received_cmd = CMD_NONE;
     	                    }
     	                    break;
-/*
+
     	                case RIM_OP_MOTOR_GETSET_PARAM:
 
     	                	if (RIM_Motors[i].received_cmd == CMD_QUEUED)
@@ -417,23 +417,45 @@ int main(void)
     	                        uint16 cmd_params = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_DATA;
     	                        byte cmd_type     = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_TYPE >> 11;
 
+    	                        if(RIM_Motors[i].motor_dir == GETSET_GET_PARAM)
+    	                        {
+    	                        	RIM_UI_cmd_temp = get_param(cmd_type, RIM_Motors[i].enable_id);
+        	                        cmd_content[0] = RIM_UI_cmd_temp;
+        	                        cmd_content[1] = RIM_UI_cmd_temp >> 8;
+        	                        Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_GETSET_PARAM | GETSET_GET_PARAM | i);
+        	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);
+        	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[1]);
 
-
-
-
-    	                        //One byte information that tells the PC that a motor 1 is running
-    	                        // --mod from PSoC4--
-    	                        Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_GETSET_PARAM | i);
-    	                        RIM_UI_cmd_temp = get_param(RIM_Motors[i].enable_id);
-    	                        cmd_content[0] = RIM_UI_cmd_temp;
-    	                        cmd_content[1] = RIM_UI_cmd_temp >> 8;
-
-    	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);
-
-    	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[1]);
-    	                        RIM_Motors[i].received_cmd = CMD_NONE;
+    	                        }
+    	                        else if(RIM_Motors[i].motor_dir == GETSET_SET_PARAM)
+    	                        {
+    	                        	switch(cmd_type)
+    	                        	{
+    	                        		case ACC:
+    	                        			set_param(cmd_type, acc_calc(cmd_params), RIM_Motors[i].enable_id);
+    	                        			break;
+    	                        		case DECEL:
+    	                        			set_param(cmd_type, dec_calc(cmd_params), RIM_Motors[i].enable_id);
+    	                        			break;
+    	                        		case MAX_SPEED:
+											set_param(cmd_type, max_speed_calc(cmd_params), RIM_Motors[i].enable_id);
+    	                        			break;
+    	                        		case STEP_MODE:
+    	                        			set_param(cmd_type, cmd_params, RIM_Motors[i].enable_id);
+    	                        			break;
+    	                        		default:
+    	                        			set_param(cmd_type, cmd_params, RIM_Motors[i].enable_id);
+    	                        			break;
+    	                        	}
+    	                        	Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_GETSET_PARAM | GETSET_SET_PARAM | i);
+    	                        	Cy_SCB_UART_Put(UARTD_HW, RIM_Motors[i].steps & 0x00FF);
+    	                        	Cy_SCB_UART_Put(UARTD_HW, (RIM_Motors[i].steps & 0xFF00) >> 8);
+    	                        }
+	                        	RIM_Motors[i].is_busy = L6470_NOT_BUSY;
+    	                		RIM_Motors[i].received_cmd = CMD_NONE;
+    	                		RIM_Motors[i].steps = 0;
     	                    }
-*/
+
     	                	break;
     	                default:
     	                    break;
