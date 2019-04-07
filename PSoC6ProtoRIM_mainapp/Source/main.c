@@ -110,7 +110,7 @@ void Interrupt_Handler_UART(void)
                     cur_bit_field = 0;
                 else
                 {
-                    RIM_Motors[cur_motor_id].motor_dir = cmd_bytes[0] >> 3;
+                    RIM_Motors[cur_motor_id].motor_dir = (cmd_bytes[0] & GETSET_RECIEVED_ACCESSOR) >> 3;
                     RIM_Motors[cur_motor_id].command_type = RIM_OP_MOTOR_GETSET_PARAM;
                 }
             	break;
@@ -264,7 +264,7 @@ int main(void)
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
-    set_param((STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1), RIM_Motors[1].enable_id);
+    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[1].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[1].enable_id);
     set_param(ACC, acc_calc(35), RIM_Motors[1].enable_id);
@@ -414,14 +414,17 @@ int main(void)
     	                	if (RIM_Motors[i].received_cmd == CMD_QUEUED)
     	                    {
     	                        RIM_Motors[i].received_cmd = CMD_RUNNING;
-    	                        uint16 cmd_params = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_DATA;
-    	                        byte cmd_type     = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_TYPE >> 11;
+								byte cmd_type         = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_TYPE;
+    	                        uint16 cmd_params     = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_DATA >> 5;
 
     	                        if(RIM_Motors[i].motor_dir == GETSET_GET_PARAM)
     	                        {
     	                        	RIM_UI_cmd_temp = get_param(cmd_type, RIM_Motors[i].enable_id);
-        	                        cmd_content[0] = RIM_UI_cmd_temp;
-        	                        cmd_content[1] = RIM_UI_cmd_temp >> 8;
+
+    	                        	cmd_content[0] = (RIM_UI_cmd_temp & 0x07) << 5;
+    	                        	cmd_content[0] |= cmd_type;
+        	                        cmd_content[1] = RIM_UI_cmd_temp >> 3;
+
         	                        Cy_SCB_UART_Put(UARTD_HW, RIM_OP_MOTOR_GETSET_PARAM | GETSET_GET_PARAM | i);
         	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);
         	                        Cy_SCB_UART_Put(UARTD_HW, cmd_content[1]);
@@ -441,7 +444,7 @@ int main(void)
 											set_param(cmd_type, max_speed_calc(cmd_params), RIM_Motors[i].enable_id);
     	                        			break;
     	                        		case STEP_MODE:
-    	                        			set_param(cmd_type, cmd_params, RIM_Motors[i].enable_id);
+    	                        			set_param(cmd_type, !SYNC_EN | cmd_params | SYNC_SEL_1 , RIM_Motors[i].enable_id);
     	                        			break;
     	                        		default:
     	                        			set_param(cmd_type, cmd_params, RIM_Motors[i].enable_id);
@@ -463,6 +466,7 @@ int main(void)
     	        }
     }
 }
+
 
 uint8 check_busy(byte dev_id)
 {
