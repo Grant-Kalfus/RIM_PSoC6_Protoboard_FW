@@ -33,7 +33,7 @@ cy_stc_sysint_t SPI_intr_cfg =
 uint8 check_busy(byte dev_id);
 
 //For Debugging
-uint16 seeval;
+uint seeval;
 int cur_bit_field = 0;
 
 
@@ -252,7 +252,7 @@ int main(void)
 
     CyDelay(1000);
 
-    seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
+    //seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[0].enable_id);
     set_param(FS_SPD, 0x3FF, RIM_Motors[0].enable_id);
@@ -261,9 +261,9 @@ int main(void)
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[0].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[0].enable_id);
     set_param(KVAL_RUN, 0xFF, RIM_Motors[0].enable_id);
-    seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
+    seeval = get_param(ACC, RIM_Motors[0].enable_id);
 
-    seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
+    //seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[1].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[1].enable_id);
@@ -274,8 +274,10 @@ int main(void)
     set_param(KVAL_RUN, 0x35, RIM_Motors[1].enable_id);
     set_param(KVAL_ACC, 0x35, RIM_Motors[1].enable_id);
     set_param(KVAL_DEC, 0x35, RIM_Motors[1].enable_id);
+    seeval = get_param(ACC, RIM_Motors[1].enable_id);
 
-    seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
+
+    //seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[2].enable_id);
     set_param(MAX_SPEED, max_speed_calc(625), RIM_Motors[2].enable_id);
     set_param(FS_SPD,  0x3FF, RIM_Motors[2].enable_id);
@@ -286,8 +288,9 @@ int main(void)
     set_param(KVAL_RUN, 0x3A, RIM_Motors[2].enable_id);
     set_param(KVAL_ACC, 0x3A, RIM_Motors[2].enable_id);
     set_param(KVAL_DEC, 0x3A, RIM_Motors[2].enable_id);
+    seeval = get_param(ACC, RIM_Motors[2].enable_id);
 
-    seeval = get_param(RIM_CONFIG, RIM_Motors[3].enable_id);
+    //seeval = get_param(RIM_CONFIG, RIM_Motors[3].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[3].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[3].enable_id);
     set_param(FS_SPD,  0x3FF, RIM_Motors[3].enable_id);
@@ -298,6 +301,7 @@ int main(void)
     set_param(KVAL_RUN, 0x84, RIM_Motors[3].enable_id);
     set_param(KVAL_ACC, 0x84, RIM_Motors[3].enable_id);
     set_param(KVAL_DEC, 0x84, RIM_Motors[3].enable_id);
+    seeval = get_param(ACC, RIM_Motors[3].enable_id);
 
 
     for(;;)
