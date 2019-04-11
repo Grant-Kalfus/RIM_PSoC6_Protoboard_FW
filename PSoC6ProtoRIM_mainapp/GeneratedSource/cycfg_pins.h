@@ -107,6 +107,16 @@ extern "C" {
 #endif
 #define busy_3_HSIOM ioss_0_port_11_pin_3_HSIOM
 #define busy_3_IRQ ioss_interrupts_gpio_11_IRQn
+#define busy_4_PORT GPIO_PRT12
+#define busy_4_PIN 1U
+#define busy_4_NUM 1U
+#define busy_4_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define busy_4_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_12_pin_1_HSIOM
+	#define ioss_0_port_12_pin_1_HSIOM HSIOM_SEL_GPIO
+#endif
+#define busy_4_HSIOM ioss_0_port_12_pin_1_HSIOM
+#define busy_4_IRQ ioss_interrupts_gpio_12_IRQn
 #define rst_3_PORT GPIO_PRT12
 #define rst_3_PIN 3U
 #define rst_3_NUM 3U
@@ -117,6 +127,26 @@ extern "C" {
 #endif
 #define rst_3_HSIOM ioss_0_port_12_pin_3_HSIOM
 #define rst_3_IRQ ioss_interrupts_gpio_12_IRQn
+#define m4_enable_PORT GPIO_PRT12
+#define m4_enable_PIN 4U
+#define m4_enable_NUM 4U
+#define m4_enable_DRIVEMODE CY_GPIO_DM_STRONG
+#define m4_enable_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_12_pin_4_HSIOM
+	#define ioss_0_port_12_pin_4_HSIOM HSIOM_SEL_GPIO
+#endif
+#define m4_enable_HSIOM ioss_0_port_12_pin_4_HSIOM
+#define m4_enable_IRQ ioss_interrupts_gpio_12_IRQn
+#define rst_4_PORT GPIO_PRT12
+#define rst_4_PIN 5U
+#define rst_4_NUM 5U
+#define rst_4_DRIVEMODE CY_GPIO_DM_STRONG
+#define rst_4_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_12_pin_5_HSIOM
+	#define ioss_0_port_12_pin_5_HSIOM HSIOM_SEL_GPIO
+#endif
+#define rst_4_HSIOM ioss_0_port_12_pin_5_HSIOM
+#define rst_4_IRQ ioss_interrupts_gpio_12_IRQn
 #define ioss_0_port_2_pin_4_PORT GPIO_PRT2
 #define ioss_0_port_2_pin_4_PIN 4U
 #define ioss_0_port_2_pin_4_NUM 4U
@@ -282,7 +312,10 @@ extern const cy_stc_gpio_pin_config_t ioss_0_port_10_pin_1_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_10_pin_2_config;
 extern const cy_stc_gpio_pin_config_t m3_enable_config;
 extern const cy_stc_gpio_pin_config_t busy_3_config;
+extern const cy_stc_gpio_pin_config_t busy_4_config;
 extern const cy_stc_gpio_pin_config_t rst_3_config;
+extern const cy_stc_gpio_pin_config_t m4_enable_config;
+extern const cy_stc_gpio_pin_config_t rst_4_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_2_pin_4_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_2_pin_5_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_5_pin_0_config;

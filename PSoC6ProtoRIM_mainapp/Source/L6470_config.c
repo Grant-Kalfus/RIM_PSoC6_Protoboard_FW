@@ -30,6 +30,9 @@ void enable_translator(byte state, byte enable_id)
         case 3:
             Cy_GPIO_Write(m3_enable_PORT, m3_enable_NUM, state);
             break;
+        case 4:
+            Cy_GPIO_Write(m4_enable_PORT, m4_enable_NUM, state);
+            break;
     }
 }
 

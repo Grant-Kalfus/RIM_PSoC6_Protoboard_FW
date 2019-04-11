@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "RIM_UI_def.h"
 #include "L6470_config.h"
-#define CURRENTLY_CONNECTED_MOTORS   4
+#define CURRENTLY_CONNECTED_MOTORS   5
 #define CURRENTLY_CONNECTED_ENCODERS 0
 
 cy_stc_scb_uart_context_t UARTD_context;
@@ -213,7 +213,7 @@ int main(void)
     RIM_Motors[1].enable_id = RIM_M1_ENABLE;
     RIM_Motors[2].enable_id = RIM_M2_ENABLE;
     RIM_Motors[3].enable_id = RIM_M3_ENABLE;
-
+    RIM_Motors[4].enable_id = RIM_M4_ENABLE;
 
     //Reset motor drivers for setup
     Cy_GPIO_Write(rst_0_PORT, rst_0_NUM, 0);
@@ -227,6 +227,9 @@ int main(void)
 
     Cy_GPIO_Write(rst_3_PORT, rst_3_NUM, 0);
     Cy_GPIO_Write(rst_3_PORT, rst_3_NUM, 1);
+
+    Cy_GPIO_Write(rst_4_PORT, rst_4_NUM, 0);
+    Cy_GPIO_Write(rst_4_PORT, rst_4_NUM, 1);
 
 
     uint16 RIM_UI_cmd_temp = 0;
@@ -252,18 +255,18 @@ int main(void)
 
     CyDelay(1000);
 
-    //seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
+    //Motor Driver Configurations
+    seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[0].enable_id);
-    set_param(FS_SPD, 0x3FF, RIM_Motors[0].enable_id);
+    set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[0].enable_id);
     set_param(ACC, acc_calc(100), RIM_Motors[0].enable_id);
     set_param(DECEL, dec_calc(100), RIM_Motors[0].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[0].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[0].enable_id);
     set_param(KVAL_RUN, 0xFF, RIM_Motors[0].enable_id);
-    seeval = get_param(ACC, RIM_Motors[0].enable_id);
 
-    //seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
+    seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[1].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[1].enable_id);
@@ -274,13 +277,11 @@ int main(void)
     set_param(KVAL_RUN, 0x35, RIM_Motors[1].enable_id);
     set_param(KVAL_ACC, 0x35, RIM_Motors[1].enable_id);
     set_param(KVAL_DEC, 0x35, RIM_Motors[1].enable_id);
-    seeval = get_param(ACC, RIM_Motors[1].enable_id);
 
-
-    //seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
+    seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[2].enable_id);
     set_param(MAX_SPEED, max_speed_calc(625), RIM_Motors[2].enable_id);
-    set_param(FS_SPD,  0x3FF, RIM_Motors[2].enable_id);
+    set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[2].enable_id);
     set_param(ACC, acc_calc(125), RIM_Motors[2].enable_id);
     set_param(DECEL, dec_calc(125), RIM_Motors[2].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[2].enable_id);
@@ -288,12 +289,11 @@ int main(void)
     set_param(KVAL_RUN, 0x3A, RIM_Motors[2].enable_id);
     set_param(KVAL_ACC, 0x3A, RIM_Motors[2].enable_id);
     set_param(KVAL_DEC, 0x3A, RIM_Motors[2].enable_id);
-    seeval = get_param(ACC, RIM_Motors[2].enable_id);
 
-    //seeval = get_param(RIM_CONFIG, RIM_Motors[3].enable_id);
+    seeval = get_param(RIM_CONFIG, RIM_Motors[3].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[3].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[3].enable_id);
-    set_param(FS_SPD,  0x3FF, RIM_Motors[3].enable_id);
+    set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[3].enable_id);
     set_param(ACC, acc_calc(100), RIM_Motors[3].enable_id);
     set_param(DECEL, dec_calc(100), RIM_Motors[3].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[3].enable_id);
@@ -301,7 +301,18 @@ int main(void)
     set_param(KVAL_RUN, 0x84, RIM_Motors[3].enable_id);
     set_param(KVAL_ACC, 0x84, RIM_Motors[3].enable_id);
     set_param(KVAL_DEC, 0x84, RIM_Motors[3].enable_id);
-    seeval = get_param(ACC, RIM_Motors[3].enable_id);
+
+    seeval = get_param(RIM_CONFIG, RIM_Motors[4].enable_id);
+    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[4].enable_id);
+    set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[4].enable_id);
+    set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[4].enable_id);
+    set_param(ACC, acc_calc(100), RIM_Motors[4].enable_id);
+    set_param(DECEL, dec_calc(100), RIM_Motors[4].enable_id);
+    set_param(OCD_TH, OCD_TH_1500mA, RIM_Motors[4].enable_id);
+    set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[4].enable_id);
+    set_param(KVAL_RUN, 0x16, RIM_Motors[4].enable_id);
+    set_param(KVAL_ACC, 0x16, RIM_Motors[4].enable_id);
+    set_param(KVAL_DEC, 0x16, RIM_Motors[4].enable_id);
 
 
     for(;;)
@@ -315,6 +326,7 @@ int main(void)
 	            RIM_Motors[1].is_busy = Cy_GPIO_Read(busy_1_PORT, busy_1_NUM) ^ 0x01;
 	            RIM_Motors[2].is_busy = Cy_GPIO_Read(busy_2_PORT, busy_2_NUM) ^ 0x01;
 	            RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
+	            RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
 
     	        //RIM_Motors[0].is_busy = Cy_GPIO_ReadOut(busy_0_PORT, busy_0_NUM);
 
@@ -329,6 +341,7 @@ int main(void)
     	            RIM_Motors[1].is_busy = Cy_GPIO_Read(busy_1_PORT, busy_1_NUM) ^ 0x01;
     	            RIM_Motors[2].is_busy = Cy_GPIO_Read(busy_2_PORT, busy_2_NUM) ^ 0x01;
     	            RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
+    	            RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
 
     	            switch(RIM_Motors[i].command_type) {
     	                //If received command is a motor run command
@@ -498,6 +511,9 @@ uint8 check_busy(byte dev_id)
             RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
             r = RIM_Motors[3].is_busy;
             break;
+        case 4:
+            RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
+            r = RIM_Motors[4].is_busy;
     }
     return r;
 }
