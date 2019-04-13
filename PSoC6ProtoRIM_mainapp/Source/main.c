@@ -267,7 +267,7 @@ int main(void)
     set_param(KVAL_RUN, 0xFF, RIM_Motors[0].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[1].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
+    set_param(STEP_MODE, (!SYNC_EN) | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[1].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[1].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[1].enable_id);
     set_param(ACC, acc_calc(35), RIM_Motors[1].enable_id);
@@ -317,19 +317,6 @@ int main(void)
 
     for(;;)
     {
-    	 //RIM_UI_cmd_temp = CUI_read(RIM_E0_ENABLE);
-    	       //RIM_UI_cmd_temp = CUI_get_position(RIM_E0_ENABLE);
-
-    	        int i = 0;
-    	        //Send update to PC that motor is currently running
-	            RIM_Motors[0].is_busy = Cy_GPIO_Read(busy_0_PORT, busy_0_NUM) ^ 0x01;
-	            RIM_Motors[1].is_busy = Cy_GPIO_Read(busy_1_PORT, busy_1_NUM) ^ 0x01;
-	            RIM_Motors[2].is_busy = Cy_GPIO_Read(busy_2_PORT, busy_2_NUM) ^ 0x01;
-	            RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
-	            RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
-
-    	        //RIM_Motors[0].is_busy = Cy_GPIO_ReadOut(busy_0_PORT, busy_0_NUM);
-
     	        for(i = 0; i < CURRENTLY_CONNECTED_MOTORS; i++) {
 
     	            if(RIM_Motors[i].received_cmd == CMD_NONE)
@@ -465,7 +452,7 @@ int main(void)
 											set_param(cmd_type, temp, RIM_Motors[i].enable_id);
     	                        			break;
     	                        		case STEP_MODE:
-    	                        			set_param(cmd_type, !SYNC_EN | cmd_params | SYNC_SEL_1 , RIM_Motors[i].enable_id);
+    	                        			set_param(cmd_type, (!SYNC_EN) | cmd_params | SYNC_SEL_1 , RIM_Motors[i].enable_id);
     	                        			break;
     	                        		default:
     	                        			set_param(cmd_type, cmd_params, RIM_Motors[i].enable_id);
@@ -484,7 +471,31 @@ int main(void)
     	                default:
     	                    break;
     	            }
+
     	        }
+    	        for(i = 0; i < CURRENTLY_CONNECTED_ENCODERS; i++) {
+    	        	if(RIM_Motors[i].received_cmd == CMD_NONE)
+    	        		continue;
+    	        	switch(RIM_Encoders[i].command_type)
+    	        	{
+    	        	case RIM_OP_ENCODER_INFO:
+    	        		if(RIM_Encoders[i].received_cmd == CMD_QUEUED)
+    	        		{
+    	        			 RIM_Encoders[i].received_cmd = CMD_RUNNING;
+    	        			 Cy_SCB_UART_Put(UARTD_HW, RIM_OP_ENCODER_INFO | i);
+    	        			 RIM_UI_cmd_temp = CUI_get_position(RIM_Encoders[i].enable_id);
+    	        			 cmd_content[0] = RIM_UI_cmd_temp;
+    	        			 cmd_content[1] = RIM_UI_cmd_temp >> 8;
+    	        			 Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);
+    	        			 Cy_SCB_UART_Put(UARTD_HW, cmd_content[1]);
+    	        		 	 RIM_Encoders[i].received_cmd = CMD_NONE;
+    	        		}
+    	        		break;
+
+    	        	}
+    	        }
+
+
     }
 }
 
