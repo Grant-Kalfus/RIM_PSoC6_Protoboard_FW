@@ -48,7 +48,7 @@
 	#define RIM_M4_ENABLE 0x04
 
 
-    //#define RIM_E0_ENABLE 0x00
+    #define RIM_E0_ENABLE 0x09
     //#define RIM_E1_ENABLE 0x03
 
 

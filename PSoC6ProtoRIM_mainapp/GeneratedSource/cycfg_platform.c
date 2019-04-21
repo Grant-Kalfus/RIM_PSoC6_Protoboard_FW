@@ -32,7 +32,7 @@
 #define CY_CFG_SYSCLK_PLL1_AVAILABLE 1
 #define CY_CFG_SYSCLK_CLKFAST_ENABLED 1
 #define CY_CFG_SYSCLK_CLKHF0_ENABLED 1
-#define CY_CFG_SYSCLK_CLKHF0_FREQ_MHZ 144UL
+#define CY_CFG_SYSCLK_CLKHF0_FREQ_MHZ 100UL
 #define CY_CFG_SYSCLK_CLKHF0_CLKPATH CY_SYSCLK_CLKHF_IN_CLKPATH1
 #define CY_CFG_SYSCLK_ILO_ENABLED 1
 #define CY_CFG_SYSCLK_IMO_ENABLED 1
@@ -59,9 +59,9 @@
 
 static const cy_stc_pll_manual_config_t srss_0_clock_0_pll_0_pllConfig = 
 {
-	.feedbackDiv = 36,
-	.referenceDiv = 1,
-	.outputDiv = 2,
+	.feedbackDiv = 100,
+	.referenceDiv = 2,
+	.outputDiv = 4,
 	.lfMode = false,
 	.outputMode = CY_SYSCLK_FLLPLL_OUTPUT_AUTO,
 };

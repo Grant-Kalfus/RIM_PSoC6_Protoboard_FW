@@ -13,7 +13,7 @@
 #include "RIM_UI_def.h"
 #include "L6470_config.h"
 #define CURRENTLY_CONNECTED_MOTORS   5
-#define CURRENTLY_CONNECTED_ENCODERS 0
+#define CURRENTLY_CONNECTED_ENCODERS 1
 
 cy_stc_scb_uart_context_t UARTD_context;
 cy_stc_sysint_t UARTD_intr_cfg =
@@ -215,6 +215,8 @@ int main(void)
     RIM_Motors[3].enable_id = RIM_M3_ENABLE;
     RIM_Motors[4].enable_id = RIM_M4_ENABLE;
 
+    RIM_Encoders[0].enable_id = RIM_E0_ENABLE;
+
     //Reset motor drivers for setup
     Cy_GPIO_Write(rst_0_PORT, rst_0_NUM, 0);
     Cy_GPIO_Write(rst_0_PORT, rst_0_NUM, 1);
@@ -255,6 +257,7 @@ int main(void)
 
     CyDelay(1000);
 
+    /*
     //Motor Driver Configurations
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
@@ -313,7 +316,10 @@ int main(void)
     set_param(KVAL_RUN, 0x16, RIM_Motors[4].enable_id);
     set_param(KVAL_ACC, 0x16, RIM_Motors[4].enable_id);
     set_param(KVAL_DEC, 0x16, RIM_Motors[4].enable_id);
+     */
 
+    seeval = CUI_read(RIM_Encoders[0].enable_id);
+    seeval = CUI_read(RIM_Encoders[0].enable_id);
 
     for(;;)
     {
@@ -483,7 +489,7 @@ int main(void)
     	        		{
     	        			 RIM_Encoders[i].received_cmd = CMD_RUNNING;
     	        			 Cy_SCB_UART_Put(UARTD_HW, RIM_OP_ENCODER_INFO | i);
-    	        			 RIM_UI_cmd_temp = CUI_get_position(RIM_Encoders[i].enable_id);
+    	        			 RIM_UI_cmd_temp = CUI_read(RIM_Encoders[i].enable_id);
     	        			 cmd_content[0] = RIM_UI_cmd_temp;
     	        			 cmd_content[1] = RIM_UI_cmd_temp >> 8;
     	        			 Cy_SCB_UART_Put(UARTD_HW, cmd_content[0]);

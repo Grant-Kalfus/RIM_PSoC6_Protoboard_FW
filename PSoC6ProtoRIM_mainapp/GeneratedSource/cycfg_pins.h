@@ -284,6 +284,33 @@ extern "C" {
 #endif
 #define SWCLK_HSIOM ioss_0_port_6_pin_7_HSIOM
 #define SWCLK_IRQ ioss_interrupts_gpio_6_IRQn
+#define ioss_0_port_8_pin_0_PORT GPIO_PRT8
+#define ioss_0_port_8_pin_0_PIN 0U
+#define ioss_0_port_8_pin_0_NUM 0U
+#define ioss_0_port_8_pin_0_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define ioss_0_port_8_pin_0_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_8_pin_0_HSIOM
+	#define ioss_0_port_8_pin_0_HSIOM HSIOM_SEL_GPIO
+#endif
+#define ioss_0_port_8_pin_0_IRQ ioss_interrupts_gpio_8_IRQn
+#define ioss_0_port_8_pin_1_PORT GPIO_PRT8
+#define ioss_0_port_8_pin_1_PIN 1U
+#define ioss_0_port_8_pin_1_NUM 1U
+#define ioss_0_port_8_pin_1_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
+#define ioss_0_port_8_pin_1_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_8_pin_1_HSIOM
+	#define ioss_0_port_8_pin_1_HSIOM HSIOM_SEL_GPIO
+#endif
+#define ioss_0_port_8_pin_1_IRQ ioss_interrupts_gpio_8_IRQn
+#define ioss_0_port_8_pin_2_PORT GPIO_PRT8
+#define ioss_0_port_8_pin_2_PIN 2U
+#define ioss_0_port_8_pin_2_NUM 2U
+#define ioss_0_port_8_pin_2_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define ioss_0_port_8_pin_2_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_8_pin_2_HSIOM
+	#define ioss_0_port_8_pin_2_HSIOM HSIOM_SEL_GPIO
+#endif
+#define ioss_0_port_8_pin_2_IRQ ioss_interrupts_gpio_8_IRQn
 #define e0_enable_PORT GPIO_PRT8
 #define e0_enable_PIN 3U
 #define e0_enable_NUM 3U
@@ -371,6 +398,9 @@ extern const cy_stc_gpio_pin_config_t busy_1_config;
 extern const cy_stc_gpio_pin_config_t SWO_config;
 extern const cy_stc_gpio_pin_config_t SWDIO_config;
 extern const cy_stc_gpio_pin_config_t SWCLK_config;
+extern const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_0_config;
+extern const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_1_config;
+extern const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_2_config;
 extern const cy_stc_gpio_pin_config_t e0_enable_config;
 extern const cy_stc_gpio_pin_config_t m2_enable_config;
 extern const cy_stc_gpio_pin_config_t rst_2_config;
