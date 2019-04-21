@@ -287,7 +287,7 @@ extern "C" {
 #define ioss_0_port_8_pin_0_PORT GPIO_PRT8
 #define ioss_0_port_8_pin_0_PIN 0U
 #define ioss_0_port_8_pin_0_NUM 0U
-#define ioss_0_port_8_pin_0_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define ioss_0_port_8_pin_0_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
 #define ioss_0_port_8_pin_0_INIT_DRIVESTATE 1
 #ifndef ioss_0_port_8_pin_0_HSIOM
 	#define ioss_0_port_8_pin_0_HSIOM HSIOM_SEL_GPIO
@@ -296,7 +296,7 @@ extern "C" {
 #define ioss_0_port_8_pin_1_PORT GPIO_PRT8
 #define ioss_0_port_8_pin_1_PIN 1U
 #define ioss_0_port_8_pin_1_NUM 1U
-#define ioss_0_port_8_pin_1_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
+#define ioss_0_port_8_pin_1_DRIVEMODE CY_GPIO_DM_HIGHZ
 #define ioss_0_port_8_pin_1_INIT_DRIVESTATE 1
 #ifndef ioss_0_port_8_pin_1_HSIOM
 	#define ioss_0_port_8_pin_1_HSIOM HSIOM_SEL_GPIO
@@ -305,7 +305,7 @@ extern "C" {
 #define ioss_0_port_8_pin_2_PORT GPIO_PRT8
 #define ioss_0_port_8_pin_2_PIN 2U
 #define ioss_0_port_8_pin_2_NUM 2U
-#define ioss_0_port_8_pin_2_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define ioss_0_port_8_pin_2_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
 #define ioss_0_port_8_pin_2_INIT_DRIVESTATE 1
 #ifndef ioss_0_port_8_pin_2_HSIOM
 	#define ioss_0_port_8_pin_2_HSIOM HSIOM_SEL_GPIO

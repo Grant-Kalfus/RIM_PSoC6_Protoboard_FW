@@ -21,7 +21,7 @@
 	#include "L6470_config.h"
 
 	extern  cy_stc_scb_uart_context_t UARTD_context;
-	extern cy_stc_sysint_t SPI_intr_cfg;
+	extern  cy_stc_scb_spi_context_t SPI_Encoder_context;
 
     //Definitions for RIM packets
     #define RIM_DIRECTION 0x08
@@ -48,8 +48,11 @@
 	#define RIM_M4_ENABLE 0x04
 
 
-    #define RIM_E0_ENABLE 0x09
-    //#define RIM_E1_ENABLE 0x03
+    #define RIM_E0_ENABLE 0x00
+	#define RIM_E1_ENABLE 0x01
+	#define RIM_E2_ENABLE 0x02
+	#define RIM_E3_ENABLE 0x03
+	#define RIM_E4_ENABLE 0x04
 
 
     //RIM OpCodes
@@ -91,7 +94,7 @@
 
     uint16 CUI_get_position(uint8 enable_id);
 
-    void RIM_enableWrite(uint8 enable_id, uint8 state);
+    void Encoder_enable_translator(uint8 state, uint8 enable_id);
 
     struct encoders {
         //Stores which enable pin needs to be pulled down for SPI communications

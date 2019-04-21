@@ -18,9 +18,6 @@ void enable_translator(byte state, byte enable_id)
 {
     switch(enable_id)
     {
-    	case 9:
-    	Cy_GPIO_Write(e4_enable_PORT, e4_enable_NUM, state);
-    		break;
         case 0:
             Cy_GPIO_Write(m0_enable_PORT, m0_enable_NUM, state);
             break;
@@ -36,19 +33,6 @@ void enable_translator(byte state, byte enable_id)
         case 4:
             Cy_GPIO_Write(m4_enable_PORT, m4_enable_NUM, state);
             break;
-        case 5:
-        	Cy_GPIO_Write(e0_enable_PORT, e0_enable_NUM, state);
-        	break;
-        case 6:
-        	Cy_GPIO_Write(e1_enable_PORT, e1_enable_NUM, state);
-        	break;
-        case 7:
-        	Cy_GPIO_Write(e2_enable_PORT, e2_enable_NUM, state);
-        	break;
-        case 8:
-        	Cy_GPIO_Write(e3_enable_PORT, e3_enable_NUM, state);
-        	break;
-
     }
 }
 
