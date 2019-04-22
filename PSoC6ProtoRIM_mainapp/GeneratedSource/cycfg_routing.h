@@ -42,6 +42,7 @@ void init_cycfg_routing(void);
 #define ioss_0_port_6_pin_7_HSIOM P6_7_CPUSS_SWJ_SWCLK_TCLK
 #define ioss_0_port_8_pin_0_HSIOM P8_0_SCB4_SPI_MOSI
 #define ioss_0_port_8_pin_1_HSIOM P8_1_SCB4_SPI_MISO
+#define ioss_0_port_8_pin_2_HSIOM P8_2_SCB4_SPI_CLK
 
 #if defined(__cplusplus)
 }

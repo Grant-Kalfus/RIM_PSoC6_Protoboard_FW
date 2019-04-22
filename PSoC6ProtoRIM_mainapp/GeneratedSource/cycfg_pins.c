@@ -443,7 +443,7 @@ const cy_stc_gpio_pin_config_t SWCLK_config =
 const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_0_config = 
 {
 	.outVal = 1,
-	.driveMode = CY_GPIO_DM_STRONG_IN_OFF,
+	.driveMode = CY_GPIO_DM_HIGHZ,
 	.hsiom = ioss_0_port_8_pin_0_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
@@ -459,7 +459,7 @@ const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_0_config =
 const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_1_config = 
 {
 	.outVal = 1,
-	.driveMode = CY_GPIO_DM_HIGHZ,
+	.driveMode = CY_GPIO_DM_STRONG_IN_OFF,
 	.hsiom = ioss_0_port_8_pin_1_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
@@ -475,7 +475,7 @@ const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_1_config =
 const cy_stc_gpio_pin_config_t ioss_0_port_8_pin_2_config = 
 {
 	.outVal = 1,
-	.driveMode = CY_GPIO_DM_STRONG_IN_OFF,
+	.driveMode = CY_GPIO_DM_HIGHZ,
 	.hsiom = ioss_0_port_8_pin_2_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,

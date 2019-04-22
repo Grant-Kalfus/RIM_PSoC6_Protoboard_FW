@@ -50,10 +50,10 @@ const cy_stc_scb_spi_config_t SPI_config =
 };
 const cy_stc_scb_spi_config_t SPI_Encoder_config = 
 {
-	.spiMode = CY_SCB_SPI_MASTER,
+	.spiMode = CY_SCB_SPI_SLAVE,
 	.subMode = CY_SCB_SPI_MOTOROLA,
 	.sclkMode = CY_SCB_SPI_CPHA0_CPOL0,
-	.oversample = 16,
+	.oversample = 0UL,
 	.rxDataWidth = 8UL,
 	.txDataWidth = 8UL,
 	.enableMsbFirst = true,

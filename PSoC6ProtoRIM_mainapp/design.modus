@@ -14,12 +14,12 @@
                 <Param id="startOnReset" value="true"/>
             </Block>
             <Block location="peri[0].div_8[1]" alias="" template="mxs40peripheralclock" version="1.0">
-                <Param id="intDivider" value="4"/>
+                <Param id="intDivider" value="32"/>
                 <Param id="fracDivider" value="0"/>
                 <Param id="startOnReset" value="true"/>
             </Block>
             <Block location="peri[0].div_8[2]" alias="" template="mxs40peripheralclock" version="1.0">
-                <Param id="intDivider" value="4"/>
+                <Param id="intDivider" value="82"/>
                 <Param id="fracDivider" value="0"/>
                 <Param id="startOnReset" value="true"/>
             </Block>
@@ -29,7 +29,7 @@
                 <Param id="ModeUser" value="CY_SCB_SPI_MASTER"/>
                 <Param id="SubModeUser" value="CY_SCB_SPI_MOTOROLA"/>
                 <Param id="SclkModeUser" value="CY_SCB_SPI_CPHA0_CPOL0"/>
-                <Param id="DataRate" value="1000"/>
+                <Param id="DataRate" value="100"/>
                 <Param id="OvsFactor" value="16"/>
                 <Param id="EnableInputFilter" value="false"/>
                 <Param id="EnableLateMisoSample" value="false"/>
@@ -62,13 +62,13 @@
                 <Param id="inFlash" value="true"/>
             </Block>
             <Block location="scb[4]" alias="SPI_Encoder" template="mxs40spi" version="1.0">
-                <Param id="ModeUser" value="CY_SCB_SPI_MASTER"/>
+                <Param id="ModeUser" value="CY_SCB_SPI_SLAVE"/>
                 <Param id="SubModeUser" value="CY_SCB_SPI_MOTOROLA"/>
                 <Param id="SclkModeUser" value="CY_SCB_SPI_CPHA0_CPOL0"/>
-                <Param id="DataRate" value="1000"/>
+                <Param id="DataRate" value="100"/>
                 <Param id="OvsFactor" value="16"/>
                 <Param id="EnableInputFilter" value="false"/>
-                <Param id="EnableLateMisoSample" value="false"/>
+                <Param id="EnableLateMisoSample" value="true"/>
                 <Param id="EnableFreeRunSclk" value="false"/>
                 <Param id="EnableWakeup" value="false"/>
                 <Param id="BitsOrder" value="MSB_FIRST"/>
@@ -405,16 +405,6 @@
                 <Param id="inFlash" value="true"/>
             </Block>
             <Block location="ioss[0].port[8].pin[0]" alias="" template="mxs40pin" version="1.0">
-                <Param id="DriveModes" value="CY_GPIO_DM_STRONG_IN_OFF"/>
-                <Param id="initialState" value="1"/>
-                <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
-                <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
-                <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
-                <Param id="driveStrength" value="CY_GPIO_DRIVE_FULL"/>
-                <Param id="sioOutputBuffer" value="true"/>
-                <Param id="inFlash" value="true"/>
-            </Block>
-            <Block location="ioss[0].port[8].pin[1]" alias="" template="mxs40pin" version="1.0">
                 <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
                 <Param id="initialState" value="1"/>
                 <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
@@ -424,8 +414,18 @@
                 <Param id="sioOutputBuffer" value="true"/>
                 <Param id="inFlash" value="true"/>
             </Block>
-            <Block location="ioss[0].port[8].pin[2]" alias="" template="mxs40pin" version="1.0">
+            <Block location="ioss[0].port[8].pin[1]" alias="" template="mxs40pin" version="1.0">
                 <Param id="DriveModes" value="CY_GPIO_DM_STRONG_IN_OFF"/>
+                <Param id="initialState" value="1"/>
+                <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
+                <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
+                <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
+                <Param id="driveStrength" value="CY_GPIO_DRIVE_FULL"/>
+                <Param id="sioOutputBuffer" value="true"/>
+                <Param id="inFlash" value="true"/>
+            </Block>
+            <Block location="ioss[0].port[8].pin[2]" alias="" template="mxs40pin" version="1.0">
+                <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
                 <Param id="initialState" value="1"/>
                 <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                 <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
@@ -585,6 +585,10 @@
         <Net>
             <Port name="ioss[0].port[8].pin[1].digital_inout[0]"/>
             <Port name="scb[4].spi_miso[0]"/>
+        </Net>
+        <Net>
+            <Port name="ioss[0].port[8].pin[2].digital_inout[0]"/>
+            <Port name="scb[4].spi_clk[0]"/>
         </Net>
         <Net>
             <Port name="ioss[0].port[10].pin[0].digital_inout[0]"/>

@@ -29,13 +29,6 @@ cy_stc_sysint_t SPI_intr_cfg =
 		.intrPriority = 7u
 };
 
-cy_stc_scb_spi_context_t SPI_Encoder_context;
-cy_stc_sysint_t SPI_Encoder_intr_cfg =
-{
-		.intrSrc = (IRQn_Type) SPI_Encoder_IRQ,
-		.intrPriority = 7u
-};
-
 
 uint8 check_busy(byte dev_id);
 
@@ -202,12 +195,6 @@ void SPI_ISR(void)
     Cy_SCB_SPI_Interrupt(SPI_HW, &SPI_context);
 }
 
-void SPI_Encoder_ISR(void)
-{
-    Cy_SCB_SPI_Interrupt(SPI_Encoder_HW, &SPI_Encoder_context);
-}
-
-
 int main(void)
 {
     /* Set up the device based on configurator selections */
@@ -264,22 +251,11 @@ int main(void)
     Cy_SysInt_Init(&SPI_intr_cfg, &SPI_ISR);
     NVIC_EnableIRQ(SPI_intr_cfg.intrSrc);
     Cy_SCB_SPI_Enable(SPI_HW);
-
-    Cy_SCB_SPI_Init(SPI_Encoder_HW, &SPI_Encoder_config, &SPI_Encoder_context);
-    Cy_SysInt_Init(&SPI_Encoder_intr_cfg, &SPI_Encoder_ISR);
-    NVIC_EnableIRQ(SPI_Encoder_intr_cfg.intrSrc);
-    Cy_SCB_SPI_Enable(SPI_Encoder_HW);
     //-------------------------------------------------
 
     __enable_irq();
 
     CyDelay(1000);
-
-    while(1) {
-    	CUI_transfer(0xAA, RIM_E0_ENABLE);
-    }
-
-
 
     /*
     //Motor Driver Configurations
@@ -341,9 +317,9 @@ int main(void)
     set_param(KVAL_ACC, 0x16, RIM_Motors[4].enable_id);
     set_param(KVAL_DEC, 0x16, RIM_Motors[4].enable_id);
      */
-    while(1) {
-    	seeval = CUI_read(RIM_E0_ENABLE);
-    }
+
+    seeval = CUI_read(RIM_Encoders[0].enable_id);
+    seeval = CUI_read(RIM_Encoders[0].enable_id);
 
     for(;;)
     {
