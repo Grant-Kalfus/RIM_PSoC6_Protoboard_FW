@@ -216,6 +216,10 @@ int main(void)
     RIM_Motors[4].enable_id = RIM_M4_ENABLE;
 
     RIM_Encoders[0].enable_id = RIM_E0_ENABLE;
+    RIM_Encoders[1].enable_id = RIM_E1_ENABLE;
+    RIM_Encoders[2].enable_id = RIM_E2_ENABLE;
+    RIM_Encoders[3].enable_id = RIM_E3_ENABLE;
+    RIM_Encoders[4].enable_id = RIM_E4_ENABLE;
 
     //Reset motor drivers for setup
     Cy_GPIO_Write(rst_0_PORT, rst_0_NUM, 0);

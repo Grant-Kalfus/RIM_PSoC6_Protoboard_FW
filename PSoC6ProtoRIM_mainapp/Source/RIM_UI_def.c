@@ -40,11 +40,9 @@ uint16 CUI_read (uint8 enable_id)
     while(1)
     {
         if(bufferRx[0] == CUI_READ_POS) {break;}
-        //CyDelay(1);
         wait_for_response(enable_id);
     }
     upper = wait_for_response(enable_id);
-    //CyDelay(1);
     lower = wait_for_response(enable_id);
     read_val = upper;
     read_val = read_val<<8;
