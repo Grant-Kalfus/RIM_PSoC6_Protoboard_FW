@@ -261,7 +261,6 @@ int main(void)
 
     CyDelay(1000);
 
-    /*
     //Motor Driver Configurations
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
@@ -281,9 +280,9 @@ int main(void)
     set_param(DECEL, dec_calc(100), RIM_Motors[1].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[1].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[1].enable_id);
-    set_param(KVAL_RUN, 0x35, RIM_Motors[1].enable_id);
-    set_param(KVAL_ACC, 0x35, RIM_Motors[1].enable_id);
-    set_param(KVAL_DEC, 0x35, RIM_Motors[1].enable_id);
+    set_param(KVAL_RUN, 0x1B, RIM_Motors[1].enable_id);
+    set_param(KVAL_ACC, 0x1B, RIM_Motors[1].enable_id);
+    set_param(KVAL_DEC, 0x1B, RIM_Motors[1].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[2].enable_id);
@@ -293,9 +292,9 @@ int main(void)
     set_param(DECEL, dec_calc(125), RIM_Motors[2].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[2].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[2].enable_id);
-    set_param(KVAL_RUN, 0x3A, RIM_Motors[2].enable_id);
-    set_param(KVAL_ACC, 0x3A, RIM_Motors[2].enable_id);
-    set_param(KVAL_DEC, 0x3A, RIM_Motors[2].enable_id);
+    set_param(KVAL_RUN, 0x1D, RIM_Motors[2].enable_id);
+    set_param(KVAL_ACC, 0x1D, RIM_Motors[2].enable_id);
+    set_param(KVAL_DEC, 0x1D, RIM_Motors[2].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[3].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[3].enable_id);
@@ -305,9 +304,9 @@ int main(void)
     set_param(DECEL, dec_calc(100), RIM_Motors[3].enable_id);
     set_param(OCD_TH, OCD_TH_6000mA, RIM_Motors[3].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[3].enable_id);
-    set_param(KVAL_RUN, 0x84, RIM_Motors[3].enable_id);
-    set_param(KVAL_ACC, 0x84, RIM_Motors[3].enable_id);
-    set_param(KVAL_DEC, 0x84, RIM_Motors[3].enable_id);
+    set_param(KVAL_RUN, 0x42, RIM_Motors[3].enable_id);
+    set_param(KVAL_ACC, 0x42, RIM_Motors[3].enable_id);
+    set_param(KVAL_DEC, 0x42, RIM_Motors[3].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[4].enable_id);
     set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[4].enable_id);
@@ -317,13 +316,9 @@ int main(void)
     set_param(DECEL, dec_calc(100), RIM_Motors[4].enable_id);
     set_param(OCD_TH, OCD_TH_1500mA, RIM_Motors[4].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[4].enable_id);
-    set_param(KVAL_RUN, 0x16, RIM_Motors[4].enable_id);
-    set_param(KVAL_ACC, 0x16, RIM_Motors[4].enable_id);
-    set_param(KVAL_DEC, 0x16, RIM_Motors[4].enable_id);
-     */
-
-    seeval = CUI_read(RIM_Encoders[0].enable_id);
-    seeval = CUI_read(RIM_Encoders[0].enable_id);
+    set_param(KVAL_RUN, 0x3A, RIM_Motors[4].enable_id);
+    set_param(KVAL_ACC, 0x3A, RIM_Motors[4].enable_id);
+    set_param(KVAL_DEC, 0x3A, RIM_Motors[4].enable_id);
 
     for(;;)
     {

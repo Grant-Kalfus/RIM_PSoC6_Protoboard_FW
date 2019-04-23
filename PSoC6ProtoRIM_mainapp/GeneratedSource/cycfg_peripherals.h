@@ -36,13 +36,10 @@ extern "C" {
 
 #define SPI_HW SCB1
 #define SPI_IRQ scb_1_interrupt_IRQn
-#define SPI_Encoder_HW SCB4
-#define SPI_Encoder_IRQ scb_4_interrupt_IRQn
 #define UARTD_HW SCB5
 #define UARTD_IRQ scb_5_interrupt_IRQn
 
 extern const cy_stc_scb_spi_config_t SPI_config;
-extern const cy_stc_scb_spi_config_t SPI_Encoder_config;
 extern const cy_stc_scb_uart_config_t UARTD_config;
 
 void init_cycfg_peripherals(void);

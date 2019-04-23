@@ -168,11 +168,11 @@ const cy_stc_gpio_pin_config_t busy_4_config =
 	.vrefSel = 0UL,
 	.vohSel = 0UL,
 };
-const cy_stc_gpio_pin_config_t rst_3_config = 
+const cy_stc_gpio_pin_config_t m4_enable_config = 
 {
 	.outVal = 1,
 	.driveMode = CY_GPIO_DM_STRONG,
-	.hsiom = rst_3_HSIOM,
+	.hsiom = m4_enable_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
 	.vtrip = CY_GPIO_VTRIP_CMOS,
@@ -184,11 +184,11 @@ const cy_stc_gpio_pin_config_t rst_3_config =
 	.vrefSel = 0UL,
 	.vohSel = 0UL,
 };
-const cy_stc_gpio_pin_config_t m4_enable_config = 
+const cy_stc_gpio_pin_config_t rst_3_config = 
 {
 	.outVal = 1,
 	.driveMode = CY_GPIO_DM_STRONG,
-	.hsiom = m4_enable_HSIOM,
+	.hsiom = rst_3_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
 	.vtrip = CY_GPIO_VTRIP_CMOS,
@@ -360,11 +360,11 @@ const cy_stc_gpio_pin_config_t rst_1_config =
 	.vrefSel = 0UL,
 	.vohSel = 0UL,
 };
-const cy_stc_gpio_pin_config_t m1_enable_config = 
+const cy_stc_gpio_pin_config_t busy_1_config = 
 {
 	.outVal = 1,
-	.driveMode = CY_GPIO_DM_STRONG,
-	.hsiom = m1_enable_HSIOM,
+	.driveMode = CY_GPIO_DM_HIGHZ,
+	.hsiom = busy_1_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
 	.vtrip = CY_GPIO_VTRIP_CMOS,
@@ -376,11 +376,11 @@ const cy_stc_gpio_pin_config_t m1_enable_config =
 	.vrefSel = 0UL,
 	.vohSel = 0UL,
 };
-const cy_stc_gpio_pin_config_t busy_1_config = 
+const cy_stc_gpio_pin_config_t m1_enable_config = 
 {
 	.outVal = 1,
-	.driveMode = CY_GPIO_DM_HIGHZ,
-	.hsiom = busy_1_HSIOM,
+	.driveMode = CY_GPIO_DM_STRONG,
+	.hsiom = m1_enable_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
 	.vtrip = CY_GPIO_VTRIP_CMOS,
@@ -504,22 +504,6 @@ const cy_stc_gpio_pin_config_t e0_enable_config =
 	.vrefSel = 0UL,
 	.vohSel = 0UL,
 };
-const cy_stc_gpio_pin_config_t m2_enable_config = 
-{
-	.outVal = 1,
-	.driveMode = CY_GPIO_DM_STRONG,
-	.hsiom = m2_enable_HSIOM,
-	.intEdge = CY_GPIO_INTR_DISABLE,
-	.intMask = 0UL,
-	.vtrip = CY_GPIO_VTRIP_CMOS,
-	.slewRate = CY_GPIO_SLEW_FAST,
-	.driveSel = CY_GPIO_DRIVE_FULL,
-	.vregEn = 0UL,
-	.ibufMode = 0UL,
-	.vtripSel = 0UL,
-	.vrefSel = 0UL,
-	.vohSel = 0UL,
-};
 const cy_stc_gpio_pin_config_t rst_2_config = 
 {
 	.outVal = 1,
@@ -541,6 +525,22 @@ const cy_stc_gpio_pin_config_t e1_enable_config =
 	.outVal = 1,
 	.driveMode = CY_GPIO_DM_STRONG,
 	.hsiom = e1_enable_HSIOM,
+	.intEdge = CY_GPIO_INTR_DISABLE,
+	.intMask = 0UL,
+	.vtrip = CY_GPIO_VTRIP_CMOS,
+	.slewRate = CY_GPIO_SLEW_FAST,
+	.driveSel = CY_GPIO_DRIVE_FULL,
+	.vregEn = 0UL,
+	.ibufMode = 0UL,
+	.vtripSel = 0UL,
+	.vrefSel = 0UL,
+	.vohSel = 0UL,
+};
+const cy_stc_gpio_pin_config_t m2_enable_config = 
+{
+	.outVal = 1,
+	.driveMode = CY_GPIO_DM_STRONG,
+	.hsiom = m2_enable_HSIOM,
 	.intEdge = CY_GPIO_INTR_DISABLE,
 	.intMask = 0UL,
 	.vtrip = CY_GPIO_VTRIP_CMOS,
@@ -606,9 +606,9 @@ void init_cycfg_pins(void)
 
 	Cy_GPIO_Pin_Init(busy_4_PORT, busy_4_PIN, &busy_4_config);
 
-	Cy_GPIO_Pin_Init(rst_3_PORT, rst_3_PIN, &rst_3_config);
-
 	Cy_GPIO_Pin_Init(m4_enable_PORT, m4_enable_PIN, &m4_enable_config);
+
+	Cy_GPIO_Pin_Init(rst_3_PORT, rst_3_PIN, &rst_3_config);
 
 	Cy_GPIO_Pin_Init(rst_4_PORT, rst_4_PIN, &rst_4_config);
 
@@ -630,9 +630,9 @@ void init_cycfg_pins(void)
 
 	Cy_GPIO_Pin_Init(rst_1_PORT, rst_1_PIN, &rst_1_config);
 
-	Cy_GPIO_Pin_Init(m1_enable_PORT, m1_enable_PIN, &m1_enable_config);
-
 	Cy_GPIO_Pin_Init(busy_1_PORT, busy_1_PIN, &busy_1_config);
+
+	Cy_GPIO_Pin_Init(m1_enable_PORT, m1_enable_PIN, &m1_enable_config);
 
 	Cy_GPIO_Pin_Init(SWO_PORT, SWO_PIN, &SWO_config);
 
@@ -648,11 +648,11 @@ void init_cycfg_pins(void)
 
 	Cy_GPIO_Pin_Init(e0_enable_PORT, e0_enable_PIN, &e0_enable_config);
 
-	Cy_GPIO_Pin_Init(m2_enable_PORT, m2_enable_PIN, &m2_enable_config);
-
 	Cy_GPIO_Pin_Init(rst_2_PORT, rst_2_PIN, &rst_2_config);
 
 	Cy_GPIO_Pin_Init(e1_enable_PORT, e1_enable_PIN, &e1_enable_config);
+
+	Cy_GPIO_Pin_Init(m2_enable_PORT, m2_enable_PIN, &m2_enable_config);
 
 	Cy_GPIO_Pin_Init(busy_2_PORT, busy_2_PIN, &busy_2_config);
 

@@ -48,30 +48,6 @@ const cy_stc_scb_spi_config_t SPI_config =
 	.txFifoIntEnableMask = 0UL,
 	.masterSlaveIntEnableMask = 0UL,
 };
-const cy_stc_scb_spi_config_t SPI_Encoder_config = 
-{
-	.spiMode = CY_SCB_SPI_SLAVE,
-	.subMode = CY_SCB_SPI_MOTOROLA,
-	.sclkMode = CY_SCB_SPI_CPHA0_CPOL0,
-	.oversample = 0UL,
-	.rxDataWidth = 8UL,
-	.txDataWidth = 8UL,
-	.enableMsbFirst = true,
-	.enableInputFilter = false,
-	.enableFreeRunSclk = false,
-	.enableMisoLateSample = false,
-	.enableTransferSeperation = false,
-	.ssPolarity = ((CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT0) | \
-                                         (CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT1) | \
-                                         (CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT2) | \
-                                         (CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT3)),
-	.enableWakeFromSleep = false,
-	.rxFifoTriggerLevel = 63UL,
-	.rxFifoIntEnableMask = 0UL,
-	.txFifoTriggerLevel = 63UL,
-	.txFifoIntEnableMask = 0UL,
-	.masterSlaveIntEnableMask = 0UL,
-};
 const cy_stc_scb_uart_config_t UARTD_config = 
 {
 	.uartMode = CY_SCB_UART_STANDARD,
@@ -105,8 +81,6 @@ const cy_stc_scb_uart_config_t UARTD_config =
 void init_cycfg_peripherals(void)
 {
 	Cy_SysClk_PeriphAssignDivider(PCLK_SCB1_CLOCK, CY_SYSCLK_DIV_8_BIT, 1U);
-
-	Cy_SysClk_PeriphAssignDivider(PCLK_SCB4_CLOCK, CY_SYSCLK_DIV_8_BIT, 2U);
 
 	Cy_SysClk_PeriphAssignDivider(PCLK_SCB5_CLOCK, CY_SYSCLK_DIV_8_BIT, 0U);
 }
