@@ -123,7 +123,7 @@ uint param_handler(byte param, uint value, byte enable_id )
 
 
     // ACC and DEC set the acceleration and deceleration rates. Set ACC to 0xFFF
-    //  to get infinite acceleration/decelaeration- there is no way to get infinite
+    //  to get infinite acceleration/deceleration- there is no way to get infinite
     //  deceleration w/o infinite acceleration (except the HARD STOP command).
     //  Cannot be written while motor is running. Both default to 0x08A on power up.
     // AccCalc() and DecCalc() functions exist to convert steps/s/s values into
@@ -304,7 +304,7 @@ uint send_and_receive(uint value, byte bit_len, byte enable_id) {
     return (r & mask);
 }
 
-// Copyed from AccCalc of SparkFun Arduino libraries for L6470
+// Copied from AccCalc of SparkFun Arduino libraries for L6470
 uint acc_calc(float stepsPerSecPerSec)
 {
   float temp = stepsPerSecPerSec * 0.137438;
@@ -312,7 +312,7 @@ uint acc_calc(float stepsPerSecPerSec)
   else return (uint) temp;
 }
 
-// Copyed from DecCalc of SparkFun Arduino libraries for L6470
+// Copied from DecCalc of SparkFun Arduino libraries for L6470
 // The calculation for DEC is the same as for ACC. Value is 0x08A on boot.
 // This is a 12-bit value, so we need to make sure the value is at or below 0xFFF.
 uint dec_calc(float stepsPerSecPerSec)
@@ -322,7 +322,7 @@ uint dec_calc(float stepsPerSecPerSec)
   else return (uint) temp;
 }
 
-// Copyed from MaxSpdCalc of SparkFun Arduino libraries for L6470
+// Copied from MaxSpdCalc of SparkFun Arduino libraries for L6470
 // The value in the MAX_SPD register is [(steps/s)*(tick)]/(2^-18) where tick is
 //  250ns (datasheet value)- 0x041 on boot.
 // Multiply desired steps/s by .065536 to get an appropriate value for this register
@@ -334,7 +334,7 @@ uint max_speed_calc(float stepsPerSec)
   else return (uint) temp;
 }
 
-// Copyed from MinSpdCalc of SparkFun Arduino libraries for L6470
+// Copied from MinSpdCalc of SparkFun Arduino libraries for L6470
 // The value in the MIN_SPD register is [(steps/s)*(tick)]/(2^-24) where tick is
 //  250ns (datasheet value)- 0x000 on boot.
 // Multiply desired steps/s by 4.1943 to get an appropriate value for this register

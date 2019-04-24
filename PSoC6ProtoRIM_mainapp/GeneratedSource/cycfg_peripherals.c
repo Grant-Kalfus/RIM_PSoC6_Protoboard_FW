@@ -24,6 +24,9 @@
 
 #include "cycfg_peripherals.h"
 
+#define SERVO_1_INPUT_DISABLED 0x7U
+#define SERVO_2_INPUT_DISABLED 0x7U
+
 const cy_stc_scb_spi_config_t SPI_config = 
 {
 	.spiMode = CY_SCB_SPI_MASTER,
@@ -76,6 +79,62 @@ const cy_stc_scb_uart_config_t UARTD_config =
 	.txFifoTriggerLevel = 63UL,
 	.txFifoIntEnableMask = 0UL,
 };
+const cy_stc_tcpwm_pwm_config_t SERVO_1_config = 
+{
+	.pwmMode = CY_TCPWM_PWM_MODE_PWM,
+	.clockPrescaler = CY_TCPWM_PWM_PRESCALER_DIVBY_1,
+	.pwmAlignment = CY_TCPWM_PWM_LEFT_ALIGN,
+	.deadTimeClocks = 0,
+	.runMode = CY_TCPWM_PWM_CONTINUOUS,
+	.period0 = 27027,
+	.period1 = 32768,
+	.enablePeriodSwap = false,
+	.compare0 = 18128,
+	.compare1 = 16384,
+	.enableCompareSwap = false,
+	.interruptSources = CY_TCPWM_INT_NONE,
+	.invertPWMOut = CY_TCPWM_PWM_INVERT_DISABLE,
+	.invertPWMOutN = CY_TCPWM_PWM_INVERT_DISABLE,
+	.killMode = CY_TCPWM_PWM_STOP_ON_KILL,
+	.swapInputMode = SERVO_1_INPUT_DISABLED & 0x3U,
+	.swapInput = CY_TCPWM_INPUT_0,
+	.reloadInputMode = SERVO_1_INPUT_DISABLED & 0x3U,
+	.reloadInput = CY_TCPWM_INPUT_0,
+	.startInputMode = SERVO_1_INPUT_DISABLED & 0x3U,
+	.startInput = CY_TCPWM_INPUT_0,
+	.killInputMode = SERVO_1_INPUT_DISABLED & 0x3U,
+	.killInput = CY_TCPWM_INPUT_0,
+	.countInputMode = SERVO_1_INPUT_DISABLED & 0x3U,
+	.countInput = CY_TCPWM_INPUT_1,
+};
+const cy_stc_tcpwm_pwm_config_t SERVO_2_config = 
+{
+	.pwmMode = CY_TCPWM_PWM_MODE_PWM,
+	.clockPrescaler = CY_TCPWM_PWM_PRESCALER_DIVBY_1,
+	.pwmAlignment = CY_TCPWM_PWM_LEFT_ALIGN,
+	.deadTimeClocks = 0,
+	.runMode = CY_TCPWM_PWM_CONTINUOUS,
+	.period0 = 27027,
+	.period1 = 32768,
+	.enablePeriodSwap = false,
+	.compare0 = 18128,
+	.compare1 = 16384,
+	.enableCompareSwap = false,
+	.interruptSources = CY_TCPWM_INT_NONE,
+	.invertPWMOut = CY_TCPWM_PWM_INVERT_DISABLE,
+	.invertPWMOutN = CY_TCPWM_PWM_INVERT_DISABLE,
+	.killMode = CY_TCPWM_PWM_STOP_ON_KILL,
+	.swapInputMode = SERVO_2_INPUT_DISABLED & 0x3U,
+	.swapInput = CY_TCPWM_INPUT_0,
+	.reloadInputMode = SERVO_2_INPUT_DISABLED & 0x3U,
+	.reloadInput = CY_TCPWM_INPUT_0,
+	.startInputMode = SERVO_2_INPUT_DISABLED & 0x3U,
+	.startInput = CY_TCPWM_INPUT_0,
+	.killInputMode = SERVO_2_INPUT_DISABLED & 0x3U,
+	.killInput = CY_TCPWM_INPUT_0,
+	.countInputMode = SERVO_2_INPUT_DISABLED & 0x3U,
+	.countInput = CY_TCPWM_INPUT_1,
+};
 
 
 void init_cycfg_peripherals(void)
@@ -83,4 +142,8 @@ void init_cycfg_peripherals(void)
 	Cy_SysClk_PeriphAssignDivider(PCLK_SCB1_CLOCK, CY_SYSCLK_DIV_8_BIT, 1U);
 
 	Cy_SysClk_PeriphAssignDivider(PCLK_SCB5_CLOCK, CY_SYSCLK_DIV_8_BIT, 0U);
+
+	Cy_SysClk_PeriphAssignDivider(PCLK_TCPWM0_CLOCKS1, CY_SYSCLK_DIV_16_BIT, 0U);
+
+	Cy_SysClk_PeriphAssignDivider(PCLK_TCPWM0_CLOCKS2, CY_SYSCLK_DIV_16_BIT, 1U);
 }

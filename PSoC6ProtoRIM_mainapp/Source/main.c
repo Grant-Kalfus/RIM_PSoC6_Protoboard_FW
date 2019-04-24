@@ -14,6 +14,7 @@
 #include "L6470_config.h"
 #define CURRENTLY_CONNECTED_MOTORS   5
 #define CURRENTLY_CONNECTED_ENCODERS 0
+#define CURRENTLY_CONNECTED_SERVOS 1
 
 cy_stc_scb_uart_context_t UARTD_context;
 cy_stc_sysint_t UARTD_intr_cfg =
@@ -44,8 +45,9 @@ uint8 cur_motor_id;
 
 struct motors RIM_Motors[7];
 struct encoders RIM_Encoders[5];
-
+struct servos RIM_Servos[2];
 uint8 opcode;
+uint16 servo_compare_val;
 
 
 //ISR for interpreting input from the computer
@@ -68,7 +70,7 @@ void Interrupt_Handler_UART(void)
         cmd_bytes[0] = received_uart_char;
 
         //Expected bit field:
-        //_ _ _ _ |_ _ _ _
+        //_ _ _ _ | _ _ _ _
         //O O O O | D M M M
         //O = Opcode, D = Direction, M = Motor ID, U = unused
 
@@ -110,7 +112,7 @@ void Interrupt_Handler_UART(void)
                     cur_bit_field = 0;
                 else
                 {
-                    RIM_Motors[cur_motor_id].motor_dir = (cmd_bytes[0] & GETSET_RECIEVED_ACCESSOR) >> 3;
+                    RIM_Motors[cur_motor_id].motor_dir = (cmd_bytes[0] & GETSET_RECEIVED_ACCESSOR) >> 3;
                     RIM_Motors[cur_motor_id].command_type = RIM_OP_MOTOR_GETSET_PARAM;
                 }
             	break;
@@ -122,6 +124,10 @@ void Interrupt_Handler_UART(void)
                 else
                     RIM_Encoders[cur_motor_id].command_type = RIM_OP_ENCODER_INFO;
                 break;
+            case RIM_OP_SERVO:
+            	cur_motor_id = received_uart_char & RIM_MOTOR_ID;
+            	RIM_Servos[cur_motor_id - 5].received_cmd = true;
+            	break;
         }
 
 
@@ -147,6 +153,9 @@ void Interrupt_Handler_UART(void)
             	break;
             case RIM_OP_ENCODER_INFO:
                 break;
+            case RIM_OP_SERVO:
+            	RIM_Servos[cur_motor_id - 5].compare |= received_uart_char;
+            	break;
         }
 
 
@@ -179,6 +188,9 @@ void Interrupt_Handler_UART(void)
                 RIM_Encoders[cur_motor_id].is_busy = L6470_NOT_BUSY;
                 RIM_Encoders[cur_motor_id].received_cmd = CMD_QUEUED;
                 break;
+            case RIM_OP_SERVO:
+            	RIM_Servos[cur_motor_id - 5].compare |= ((uint16)received_uart_char << 8);
+            	break;
         }
 
         cmd_bytes[2] = received_uart_char;
@@ -238,6 +250,7 @@ int main(void)
     //-------------------------------------------------
     //Communication Enables
     //-------------------------------------------------
+
     //UART
     Cy_SCB_UART_Init(UARTD_HW, &UARTD_config, &UARTD_context);
     Cy_SysInt_Init(&UARTD_intr_cfg, &Interrupt_Handler_UART);
@@ -249,6 +262,17 @@ int main(void)
     Cy_SysInt_Init(&SPI_intr_cfg, &SPI_ISR);
     NVIC_EnableIRQ(SPI_intr_cfg.intrSrc);
     Cy_SCB_SPI_Enable(SPI_HW);
+
+    //PWM
+    Cy_TCPWM_PWM_Init(SERVO_1_HW, SERVO_1_NUM, &SERVO_1_config);
+    Cy_TCPWM_PWM_Init(SERVO_2_HW, SERVO_2_NUM, &SERVO_2_config);
+
+    Cy_TCPWM_PWM_Enable(SERVO_1_HW, SERVO_1_NUM);
+    Cy_TCPWM_PWM_Enable(SERVO_2_HW, SERVO_2_NUM);
+
+    Cy_TCPWM_TriggerStart(SERVO_1_HW, SERVO_1_MASK);
+    Cy_TCPWM_TriggerStart(SERVO_2_HW, SERVO_2_MASK);
+
     //-------------------------------------------------
 
     __enable_irq();
@@ -418,8 +442,8 @@ int main(void)
     	                	if (RIM_Motors[i].received_cmd == CMD_QUEUED)
     	                    {
     	                        RIM_Motors[i].received_cmd = CMD_RUNNING;
-								byte cmd_type         = RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_TYPE;
-    	                        uint16 cmd_params     = (RIM_Motors[i].steps & GETSET_RECIEVED_PARAM_DATA) >> 5;
+								byte cmd_type         = RIM_Motors[i].steps & GETSET_RECEIVED_PARAM_TYPE;
+    	                        uint16 cmd_params     = (RIM_Motors[i].steps & GETSET_RECEIVED_PARAM_DATA) >> 5;
 
     	                        if(RIM_Motors[i].motor_dir == GETSET_GET_PARAM)
     	                        {
@@ -494,7 +518,23 @@ int main(void)
 
     	        	}
     	        }
-
+    	        for (i = 0; i < CURRENTLY_CONNECTED_SERVOS; i++){
+    	        	if(RIM_Servos[i].received_cmd == CMD_NONE)
+    	        		continue;
+    	        	switch(cur_motor_id)
+    	        	{
+    	        	case 5:
+    	        		servo_compare_val = 18450 - (1.892 * RIM_Servos[0].compare);
+    	        		Cy_TCPWM_PWM_SetCompare0(SERVO_1_HW, SERVO_1_NUM, servo_compare_val);
+    	        		RIM_Servos[i].received_cmd = CMD_NONE;
+    	        		break;
+    	        	case 6:
+    	        		servo_compare_val = 18450 - (1.892 * RIM_Servos[1].compare);
+    	        	    Cy_TCPWM_PWM_SetCompare0(SERVO_2_HW, SERVO_2_NUM, servo_compare_val);
+    	        	    RIM_Servos[i].received_cmd = CMD_NONE;
+    	        	    break;
+    	        	}
+    	        }
 
     }
 }

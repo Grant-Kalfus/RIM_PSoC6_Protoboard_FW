@@ -61,7 +61,7 @@
     #define RIM_OP_ERROR               0x50
 
     #define RIM_OP_MOTOR_EXTENDED_STEP 0x80
-
+	#define RIM_OP_SERVO			   0x90
 	//RIM Opcode Specials
 
 	//For RIM_OP_MOTOR_STOP
@@ -74,9 +74,9 @@
 	#define GETSET_GET_PARAM 0x00
 	#define GETSET_SET_PARAM 0x01
 
-	#define GETSET_RECIEVED_PARAM_DATA 0xFFE0
-	#define GETSET_RECIEVED_PARAM_TYPE 0x001F
-	#define GETSET_RECIEVED_ACCESSOR 0x08
+	#define GETSET_RECEIVED_PARAM_DATA 0xFFE0
+	#define GETSET_RECEIVED_PARAM_TYPE 0x001F
+	#define GETSET_RECEIVED_ACCESSOR 0x08
 
     //CUI Encoder Constants
     #define CUI_NOP 0x00
@@ -107,7 +107,6 @@
 
     struct motors {
         //Stores which enable pin needs to be pulled down for SPI communications
-
         uint8 enable_id;
 
         //Stores number of steps
@@ -124,6 +123,15 @@
 
         //Keeps track if the device is busy
         uint32_t is_busy;
+    };
+
+    struct servos {
+
+    	//compare value to be written to the PWM
+    	uint16 compare;
+
+    	uint8 received_cmd;
+
     };
 
 
