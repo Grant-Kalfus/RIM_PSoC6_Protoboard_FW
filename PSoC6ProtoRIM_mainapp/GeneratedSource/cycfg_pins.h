@@ -204,16 +204,6 @@ extern "C" {
 #endif
 #define rst_0_HSIOM ioss_0_port_5_pin_2_HSIOM
 #define rst_0_IRQ ioss_interrupts_gpio_5_IRQn
-#define busy_0_PORT GPIO_PRT5
-#define busy_0_PIN 3U
-#define busy_0_NUM 3U
-#define busy_0_DRIVEMODE CY_GPIO_DM_HIGHZ
-#define busy_0_INIT_DRIVESTATE 1
-#ifndef ioss_0_port_5_pin_3_HSIOM
-	#define ioss_0_port_5_pin_3_HSIOM HSIOM_SEL_GPIO
-#endif
-#define busy_0_HSIOM ioss_0_port_5_pin_3_HSIOM
-#define busy_0_IRQ ioss_interrupts_gpio_5_IRQn
 #define m0_enable_PORT GPIO_PRT5
 #define m0_enable_PIN 4U
 #define m0_enable_NUM 4U
@@ -224,6 +214,16 @@ extern "C" {
 #endif
 #define m0_enable_HSIOM ioss_0_port_5_pin_4_HSIOM
 #define m0_enable_IRQ ioss_interrupts_gpio_5_IRQn
+#define busy_0_PORT GPIO_PRT5
+#define busy_0_PIN 5U
+#define busy_0_NUM 5U
+#define busy_0_DRIVEMODE CY_GPIO_DM_HIGHZ
+#define busy_0_INIT_DRIVESTATE 0
+#ifndef ioss_0_port_5_pin_5_HSIOM
+	#define ioss_0_port_5_pin_5_HSIOM HSIOM_SEL_GPIO
+#endif
+#define busy_0_HSIOM ioss_0_port_5_pin_5_HSIOM
+#define busy_0_IRQ ioss_interrupts_gpio_5_IRQn
 #define rst_1_PORT GPIO_PRT6
 #define rst_1_PIN 0U
 #define rst_1_NUM 0U
@@ -390,8 +390,8 @@ extern const cy_stc_gpio_pin_config_t ioss_0_port_2_pin_5_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_5_pin_0_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_5_pin_1_config;
 extern const cy_stc_gpio_pin_config_t rst_0_config;
-extern const cy_stc_gpio_pin_config_t busy_0_config;
 extern const cy_stc_gpio_pin_config_t m0_enable_config;
+extern const cy_stc_gpio_pin_config_t busy_0_config;
 extern const cy_stc_gpio_pin_config_t rst_1_config;
 extern const cy_stc_gpio_pin_config_t busy_1_config;
 extern const cy_stc_gpio_pin_config_t m1_enable_config;

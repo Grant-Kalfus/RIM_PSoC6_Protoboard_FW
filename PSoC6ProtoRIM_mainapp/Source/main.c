@@ -13,7 +13,7 @@
 #include "RIM_UI_def.h"
 #include "L6470_config.h"
 #define CURRENTLY_CONNECTED_MOTORS   5
-#define CURRENTLY_CONNECTED_ENCODERS 1
+#define CURRENTLY_CONNECTED_ENCODERS 5
 
 cy_stc_scb_uart_context_t UARTD_context;
 cy_stc_sysint_t UARTD_intr_cfg =
@@ -237,7 +237,6 @@ int main(void)
     Cy_GPIO_Write(rst_4_PORT, rst_4_NUM, 0);
     Cy_GPIO_Write(rst_4_PORT, rst_4_NUM, 1);
 
-
     uint16 RIM_UI_cmd_temp = 0;
     byte cmd_content[2] = {0, 0};
 
@@ -261,9 +260,12 @@ int main(void)
 
     CyDelay(1000);
 
+
+
     //Motor Driver Configurations
+
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
+    set_param(STEP_MODE, (!SYNC_EN) | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[0].enable_id);
     set_param(FS_SPD, fs_calc(0x3FF), RIM_Motors[0].enable_id);
     set_param(ACC, acc_calc(100), RIM_Motors[0].enable_id);
@@ -285,7 +287,7 @@ int main(void)
     set_param(KVAL_DEC, 0x1B, RIM_Motors[1].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[2].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[2].enable_id);
+    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1 , RIM_Motors[2].enable_id);
     set_param(MAX_SPEED, max_speed_calc(625), RIM_Motors[2].enable_id);
     set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[2].enable_id);
     set_param(ACC, acc_calc(125), RIM_Motors[2].enable_id);
@@ -309,19 +311,26 @@ int main(void)
     set_param(KVAL_DEC, 0x42, RIM_Motors[3].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[4].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[4].enable_id);
+    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[4].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[4].enable_id);
     set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[4].enable_id);
     set_param(ACC, acc_calc(100), RIM_Motors[4].enable_id);
     set_param(DECEL, dec_calc(100), RIM_Motors[4].enable_id);
     set_param(OCD_TH, OCD_TH_1500mA, RIM_Motors[4].enable_id);
     set_param(RIM_CONFIG, CONFIG_PWM_DIV_1 | CONFIG_PWM_MUL_2 | CONFIG_SR_530V_us | CONFIG_OC_SD_ENABLE | CONFIG_VS_COMP_DISABLE | CONFIG_SW_HARD_STOP | CONFIG_INT_16MHZ, RIM_Motors[4].enable_id);
-    set_param(KVAL_RUN, 0x3A, RIM_Motors[4].enable_id);
-    set_param(KVAL_ACC, 0x3A, RIM_Motors[4].enable_id);
-    set_param(KVAL_DEC, 0x3A, RIM_Motors[4].enable_id);
+    set_param(KVAL_RUN, 0x0B, RIM_Motors[4].enable_id);
+    set_param(KVAL_ACC, 0x0B, RIM_Motors[4].enable_id);
+    set_param(KVAL_DEC, 0x0B, RIM_Motors[4].enable_id);
 
     for(;;)
     {
+
+        RIM_Motors[0].is_busy = Cy_GPIO_Read(busy_0_PORT, busy_0_NUM) ^ 0x01;
+        RIM_Motors[1].is_busy = Cy_GPIO_Read(busy_1_PORT, busy_1_NUM) ^ 0x01;
+        RIM_Motors[2].is_busy = Cy_GPIO_Read(busy_2_PORT, busy_2_NUM) ^ 0x01;
+        RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
+        RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
+
     	        for(i = 0; i < CURRENTLY_CONNECTED_MOTORS; i++) {
 
     	            if(RIM_Motors[i].received_cmd == CMD_NONE)
@@ -479,7 +488,7 @@ int main(void)
 
     	        }
     	        for(i = 0; i < CURRENTLY_CONNECTED_ENCODERS; i++) {
-    	        	if(RIM_Motors[i].received_cmd == CMD_NONE)
+    	        	if(RIM_Encoders[i].received_cmd == CMD_NONE)
     	        		continue;
     	        	switch(RIM_Encoders[i].command_type)
     	        	{
