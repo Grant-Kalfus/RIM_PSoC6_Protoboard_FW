@@ -34,6 +34,7 @@ uint16 CUI_read (uint8 enable_id)
     uint8_t upper=0,
             lower=0;
     uint16 read_val;
+    int timeout = 50;
 
     CUI_transfer(CUI_READ_POS, enable_id);
     CyDelayUs(20);
@@ -41,6 +42,13 @@ uint16 CUI_read (uint8 enable_id)
     {
         if(bufferRx[0] == CUI_READ_POS) {break;}
         wait_for_response(enable_id);
+        CyDelay(1);
+        timeout--;
+
+        if(timeout == 0)
+        {
+        	return 0xFFFF;
+        }
     }
     upper = wait_for_response(enable_id);
     lower = wait_for_response(enable_id);

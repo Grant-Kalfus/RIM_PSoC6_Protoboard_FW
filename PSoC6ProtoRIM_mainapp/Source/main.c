@@ -311,7 +311,7 @@ int main(void)
     set_param(KVAL_DEC, 0x42, RIM_Motors[3].enable_id);
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[4].enable_id);
-    set_param(STEP_MODE, !SYNC_EN | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[4].enable_id);
+    set_param(STEP_MODE, (!SYNC_EN) | STEP_SEL_1_4 | SYNC_SEL_1, RIM_Motors[4].enable_id);
     set_param(MAX_SPEED, max_speed_calc(500), RIM_Motors[4].enable_id);
     set_param(FS_SPD,  fs_calc(0x3FF), RIM_Motors[4].enable_id);
     set_param(ACC, acc_calc(100), RIM_Motors[4].enable_id);
@@ -324,12 +324,6 @@ int main(void)
 
     for(;;)
     {
-
-        RIM_Motors[0].is_busy = Cy_GPIO_Read(busy_0_PORT, busy_0_NUM) ^ 0x01;
-        RIM_Motors[1].is_busy = Cy_GPIO_Read(busy_1_PORT, busy_1_NUM) ^ 0x01;
-        RIM_Motors[2].is_busy = Cy_GPIO_Read(busy_2_PORT, busy_2_NUM) ^ 0x01;
-        RIM_Motors[3].is_busy = Cy_GPIO_Read(busy_3_PORT, busy_3_NUM) ^ 0x01;
-        RIM_Motors[4].is_busy = Cy_GPIO_Read(busy_4_PORT, busy_4_NUM) ^ 0x01;
 
     	        for(i = 0; i < CURRENTLY_CONNECTED_MOTORS; i++) {
 
