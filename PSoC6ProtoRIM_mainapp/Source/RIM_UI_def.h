@@ -59,9 +59,9 @@
     #define RIM_OP_MOTOR_STATUS        0x30
     #define RIM_OP_ENCODER_INFO        0x40
     #define RIM_OP_ERROR               0x50
-
+	#define RIM_OP_SERVO			   0x70
     #define RIM_OP_MOTOR_EXTENDED_STEP 0x80
-	#define RIM_OP_SERVO			   0x90
+
 	//RIM Opcode Specials
 
 	//For RIM_OP_MOTOR_STOP
@@ -130,7 +130,7 @@
     	//compare value to be written to the PWM
     	uint16 compare;
 
-    	uint8 received_cmd;
+    	uint16 received_cmd;
 
     };
 
