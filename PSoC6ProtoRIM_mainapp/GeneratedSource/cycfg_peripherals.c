@@ -35,7 +35,7 @@ const cy_stc_scb_spi_config_t SPI_config =
 	.enableMsbFirst = true,
 	.enableInputFilter = false,
 	.enableFreeRunSclk = false,
-	.enableMisoLateSample = false,
+	.enableMisoLateSample = true,
 	.enableTransferSeperation = false,
 	.ssPolarity = ((CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT0) | \
                                          (CY_SCB_SPI_ACTIVE_LOW << CY_SCB_SPI_SLAVE_SELECT1) | \

@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include "RIM_UI_def.h"
 #include "L6470_config.h"
-#define CURRENTLY_CONNECTED_MOTORS   5
+#define CURRENTLY_CONNECTED_MOTORS   0
 #define CURRENTLY_CONNECTED_ENCODERS 5
 
 cy_stc_scb_uart_context_t UARTD_context;
@@ -190,6 +190,7 @@ void Interrupt_Handler_UART(void)
 }
 
 
+
 void SPI_ISR(void)
 {
     Cy_SCB_SPI_Interrupt(SPI_HW, &SPI_context);
@@ -259,7 +260,14 @@ int main(void)
     __enable_irq();
 
     CyDelay(1000);
-
+    while(1){
+    	seeval = CUI_read(RIM_Motors[0].enable_id);
+    	seeval = CUI_read(RIM_Motors[1].enable_id);
+    	seeval = CUI_read(RIM_Motors[2].enable_id);
+    	seeval = CUI_read(RIM_Motors[3].enable_id);
+    	seeval = CUI_read(RIM_Motors[4].enable_id);
+    	CyDelay(1);
+    }
 
 
     //Motor Driver Configurations

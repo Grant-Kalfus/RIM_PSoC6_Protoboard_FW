@@ -32,7 +32,7 @@
                 <Param id="DataRate" value="100"/>
                 <Param id="OvsFactor" value="16"/>
                 <Param id="EnableInputFilter" value="false"/>
-                <Param id="EnableLateMisoSample" value="false"/>
+                <Param id="EnableLateMisoSample" value="true"/>
                 <Param id="EnableFreeRunSclk" value="false"/>
                 <Param id="EnableWakeup" value="false"/>
                 <Param id="BitsOrder" value="MSB_FIRST"/>
