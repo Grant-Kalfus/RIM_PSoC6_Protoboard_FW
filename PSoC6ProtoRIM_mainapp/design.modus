@@ -1,3 +1,21 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@Grant-Kalfus 
+1
+0 0 Grant-Kalfus/RIM_PSoC6_Protoboard_FW
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
+RIM_PSoC6_Protoboard_FW/PSoC6ProtoRIM_mainapp/design.modus
+@Grant-Kalfus Grant-Kalfus Modified the pin assignment to match the new PCB.
+e3b0bf7 9 days ago
+567 lines (566 sloc)  32.1 KB
+    
 <?xml version="1.0" encoding="UTF-8"?>
 <Design version="10" xmlns="http://cypress.com/xsd/cydesignfile_v1">
     <ToolInfo version="1.0.0"/>
@@ -32,7 +50,7 @@
                 <Param id="DataRate" value="100"/>
                 <Param id="OvsFactor" value="16"/>
                 <Param id="EnableInputFilter" value="false"/>
-                <Param id="EnableLateMisoSample" value="true"/>
+                <Param id="EnableLateMisoSample" value="false"/>
                 <Param id="EnableFreeRunSclk" value="false"/>
                 <Param id="EnableWakeup" value="false"/>
                 <Param id="BitsOrder" value="MSB_FIRST"/>
@@ -288,8 +306,8 @@
                 <Param id="sioOutputBuffer" value="true"/>
                 <Param id="inFlash" value="true"/>
             </Block>
-            <Block location="ioss[0].port[5].pin[4]" alias="m0_enable" template="mxs40pin" version="1.0">
-                <Param id="DriveModes" value="CY_GPIO_DM_STRONG"/>
+            <Block location="ioss[0].port[5].pin[3]" alias="busy_0" template="mxs40pin" version="1.0">
+                <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
                 <Param id="initialState" value="1"/>
                 <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                 <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
@@ -298,9 +316,9 @@
                 <Param id="sioOutputBuffer" value="true"/>
                 <Param id="inFlash" value="true"/>
             </Block>
-            <Block location="ioss[0].port[5].pin[5]" alias="busy_0" template="mxs40pin" version="1.0">
-                <Param id="DriveModes" value="CY_GPIO_DM_HIGHZ"/>
-                <Param id="initialState" value="0"/>
+            <Block location="ioss[0].port[5].pin[4]" alias="m0_enable" template="mxs40pin" version="1.0">
+                <Param id="DriveModes" value="CY_GPIO_DM_STRONG"/>
+                <Param id="initialState" value="1"/>
                 <Param id="vtrip" value="CY_GPIO_VTRIP_CMOS"/>
                 <Param id="isrTrigger" value="CY_GPIO_INTR_DISABLE"/>
                 <Param id="slewRate" value="CY_GPIO_SLEW_FAST"/>
@@ -564,3 +582,15 @@
         </Net>
     </Netlist>
 </Design>
+© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About

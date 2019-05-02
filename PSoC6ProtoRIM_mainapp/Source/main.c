@@ -259,13 +259,14 @@ int main(void)
 
     __enable_irq();
 
+
     CyDelay(1000);
     while(1){
-    	seeval = CUI_read(RIM_Motors[0].enable_id);
-    	seeval = CUI_read(RIM_Motors[1].enable_id);
-    	seeval = CUI_read(RIM_Motors[2].enable_id);
-    	seeval = CUI_read(RIM_Motors[3].enable_id);
-    	seeval = CUI_read(RIM_Motors[4].enable_id);
+    	seeval = CUI_read(RIM_Encoders[0].enable_id);
+    	seeval = CUI_read(RIM_Encoders[1].enable_id);
+    	seeval = CUI_read(RIM_Encoders[2].enable_id);
+    	seeval = CUI_read(RIM_Encoders[3].enable_id);
+    	seeval = CUI_read(RIM_Encoders[4].enable_id);
     	CyDelay(1);
     }
 
