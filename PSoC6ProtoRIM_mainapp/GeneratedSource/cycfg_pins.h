@@ -148,6 +148,24 @@ extern "C" {
 #endif
 #define rst_4_HSIOM ioss_0_port_12_pin_5_HSIOM
 #define rst_4_IRQ ioss_interrupts_gpio_12_IRQn
+#define ioss_0_port_13_pin_2_PORT GPIO_PRT13
+#define ioss_0_port_13_pin_2_PIN 2U
+#define ioss_0_port_13_pin_2_NUM 2U
+#define ioss_0_port_13_pin_2_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
+#define ioss_0_port_13_pin_2_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_13_pin_2_HSIOM
+	#define ioss_0_port_13_pin_2_HSIOM HSIOM_SEL_GPIO
+#endif
+#define ioss_0_port_13_pin_2_IRQ ioss_interrupts_gpio_13_IRQn
+#define ioss_0_port_13_pin_4_PORT GPIO_PRT13
+#define ioss_0_port_13_pin_4_PIN 4U
+#define ioss_0_port_13_pin_4_NUM 4U
+#define ioss_0_port_13_pin_4_DRIVEMODE CY_GPIO_DM_STRONG_IN_OFF
+#define ioss_0_port_13_pin_4_INIT_DRIVESTATE 1
+#ifndef ioss_0_port_13_pin_4_HSIOM
+	#define ioss_0_port_13_pin_4_HSIOM HSIOM_SEL_GPIO
+#endif
+#define ioss_0_port_13_pin_4_IRQ ioss_interrupts_gpio_13_IRQn
 #define e4_enable_PORT GPIO_PRT13
 #define e4_enable_PIN 6U
 #define e4_enable_NUM 6U
@@ -357,6 +375,8 @@ extern const cy_stc_gpio_pin_config_t busy_4_config;
 extern const cy_stc_gpio_pin_config_t m4_enable_config;
 extern const cy_stc_gpio_pin_config_t rst_3_config;
 extern const cy_stc_gpio_pin_config_t rst_4_config;
+extern const cy_stc_gpio_pin_config_t ioss_0_port_13_pin_2_config;
+extern const cy_stc_gpio_pin_config_t ioss_0_port_13_pin_4_config;
 extern const cy_stc_gpio_pin_config_t e4_enable_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_2_pin_4_config;
 extern const cy_stc_gpio_pin_config_t ioss_0_port_2_pin_5_config;

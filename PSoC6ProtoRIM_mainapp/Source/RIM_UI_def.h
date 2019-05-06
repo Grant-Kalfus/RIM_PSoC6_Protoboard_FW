@@ -63,7 +63,7 @@
     #define RIM_OP_MOTOR_STATUS        0x30
     #define RIM_OP_ENCODER_INFO        0x40
     #define RIM_OP_ERROR               0x50
-
+	#define RIM_OP_SERVO			   0x70
     #define RIM_OP_MOTOR_EXTENDED_STEP 0x80
 
 	//RIM Opcode Specials
@@ -129,6 +129,15 @@
         //Keeps track if the device is busy
         uint32_t is_busy;
     };
+
+    struct servos {
+
+        	//compare value to be written to the PWM
+        	uint16 compare;
+
+        	uint16 received_cmd;
+
+        };
 
 
 #endif

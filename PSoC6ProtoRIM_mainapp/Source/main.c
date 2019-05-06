@@ -14,6 +14,7 @@
 #include "L6470_config.h"
 #define CURRENTLY_CONNECTED_MOTORS   5
 #define CURRENTLY_CONNECTED_ENCODERS 5
+#define CURRENTLY_CONNECTED_SERVOS 2
 
 cy_stc_scb_uart_context_t UARTD_context;
 cy_stc_sysint_t UARTD_intr_cfg =
@@ -44,8 +45,10 @@ uint8 cur_motor_id;
 
 struct motors RIM_Motors[7];
 struct encoders RIM_Encoders[5];
+struct servos RIM_Servos[2];
 
 uint8 opcode;
+uint16 servo1_compare_val, servo2_compare_val;
 
 
 //ISR for interpreting input from the computer
@@ -122,6 +125,9 @@ void Interrupt_Handler_UART(void)
                 else
                     RIM_Encoders[cur_motor_id].command_type = RIM_OP_ENCODER_INFO;
                 break;
+            case RIM_OP_SERVO:
+                cur_motor_id = received_uart_char & RIM_MOTOR_ID;
+                break;
         }
 
 
@@ -146,6 +152,9 @@ void Interrupt_Handler_UART(void)
             	RIM_Motors[cur_motor_id].steps |= received_uart_char;
             	break;
             case RIM_OP_ENCODER_INFO:
+                break;
+            case RIM_OP_SERVO:
+            	RIM_Servos[cur_motor_id - 5].compare = received_uart_char;
                 break;
         }
 
@@ -179,6 +188,10 @@ void Interrupt_Handler_UART(void)
                 RIM_Encoders[cur_motor_id].is_busy = L6470_NOT_BUSY;
                 RIM_Encoders[cur_motor_id].received_cmd = CMD_QUEUED;
                 break;
+            case RIM_OP_SERVO:
+                RIM_Servos[cur_motor_id - 5].compare |= ((uint16)received_uart_char << 8);
+                RIM_Servos[cur_motor_id - 5].received_cmd = CMD_QUEUED;
+                break;
         }
 
         cmd_bytes[2] = received_uart_char;
@@ -207,6 +220,10 @@ int main(void)
         RIM_Motors[i].received_cmd = CMD_NONE;
         RIM_Motors[i].steps = 0;
     }
+    for (i=0; i < CURRENTLY_CONNECTED_SERVOS; i++){
+        RIM_Servos[i].received_cmd = CMD_NONE;
+        RIM_Servos[i].compare = 2000;
+        }
 
     //Assign enable ids
     RIM_Motors[0].enable_id = RIM_M0_ENABLE;
@@ -254,6 +271,16 @@ int main(void)
     Cy_SysInt_Init(&SPI_intr_cfg, &SPI_ISR);
     NVIC_EnableIRQ(SPI_intr_cfg.intrSrc);
     Cy_SCB_SPI_Enable(SPI_HW);
+
+    //PWM
+    Cy_TCPWM_PWM_Init(SERVO_1_HW, SERVO_1_NUM, &SERVO_1_config);
+    Cy_TCPWM_PWM_Init(SERVO_2_HW, SERVO_2_NUM, &SERVO_2_config);
+
+    Cy_TCPWM_PWM_Enable(SERVO_1_HW, SERVO_1_NUM);
+    Cy_TCPWM_PWM_Enable(SERVO_2_HW, SERVO_2_NUM);
+
+    Cy_TCPWM_TriggerStart(SERVO_1_HW, SERVO_1_MASK);
+    Cy_TCPWM_TriggerStart(SERVO_2_HW, SERVO_2_MASK);
     //-------------------------------------------------
 
     __enable_irq();
@@ -261,7 +288,6 @@ int main(void)
     CyDelay(1000);
 
     //Motor Driver Configurations
-
 
     seeval = get_param(RIM_CONFIG, RIM_Motors[0].enable_id);
     set_param(STEP_MODE, (!SYNC_EN) | STEP_SEL_1_2 | SYNC_SEL_1, RIM_Motors[0].enable_id);
@@ -501,7 +527,24 @@ int main(void)
 
     	        	}
     	        }
-
+    	        for (i = 0; i < CURRENTLY_CONNECTED_SERVOS; i++){
+    	        	if(RIM_Servos[i].received_cmd == CMD_NONE)
+    	        			continue;
+    	            if (i == 0){
+    	            	servo1_compare_val = 8106 + (83.14 * RIM_Servos[0].compare);
+    	            	Cy_TCPWM_PWM_SetCompare0(SERVO_1_HW, SERVO_1_NUM, servo1_compare_val);
+    	            	RIM_Servos[i].received_cmd = CMD_NONE;
+    	            	Cy_SCB_UART_Put(UARTD_HW, (i+5) | RIM_OP_SERVO);
+    	            	Cy_SCB_UART_Put(UARTD_HW, RIM_Servos[0].compare);
+    	            }
+    	            else{
+    	            	servo2_compare_val = 8106 + (83.14 * RIM_Servos[1].compare);
+    	            	Cy_TCPWM_PWM_SetCompare0(SERVO_2_HW, SERVO_2_NUM, servo2_compare_val);
+    	            	RIM_Servos[i].received_cmd = CMD_NONE;
+    	            	Cy_SCB_UART_Put(UARTD_HW, (i+5) | RIM_OP_SERVO);
+    	            	Cy_SCB_UART_Put(UARTD_HW, servo2_compare_val);
+    	           	}
+    	        }
 
     }
 }

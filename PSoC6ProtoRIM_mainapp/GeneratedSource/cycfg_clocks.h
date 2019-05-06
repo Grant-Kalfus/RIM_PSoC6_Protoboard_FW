@@ -32,6 +32,10 @@
 extern "C" {
 #endif
 
+#define SERVO_1_CLK_HW CY_SYSCLK_DIV_16_BIT
+#define SERVO_1_CLK_NUM 0U
+#define SERVO_2_CLK_HW CY_SYSCLK_DIV_16_BIT
+#define SERVO_2_CLK_NUM 1U
 #define peri_0_div_8_0_HW CY_SYSCLK_DIV_8_BIT
 #define peri_0_div_8_0_NUM 0U
 #define peri_0_div_8_1_HW CY_SYSCLK_DIV_8_BIT

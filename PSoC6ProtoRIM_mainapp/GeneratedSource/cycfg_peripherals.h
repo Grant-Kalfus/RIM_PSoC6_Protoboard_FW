@@ -29,6 +29,8 @@
 #include "cy_scb_spi.h"
 #include "cy_sysclk.h"
 #include "cy_scb_uart.h"
+#include "cy_tcpwm_pwm.h"
+#include "cycfg_routing.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -38,9 +40,17 @@ extern "C" {
 #define SPI_IRQ scb_1_interrupt_IRQn
 #define UARTD_HW SCB5
 #define UARTD_IRQ scb_5_interrupt_IRQn
+#define SERVO_1_HW TCPWM0
+#define SERVO_1_NUM 1UL
+#define SERVO_1_MASK (1UL << 1)
+#define SERVO_2_HW TCPWM0
+#define SERVO_2_NUM 2UL
+#define SERVO_2_MASK (1UL << 2)
 
 extern const cy_stc_scb_spi_config_t SPI_config;
 extern const cy_stc_scb_uart_config_t UARTD_config;
+extern const cy_stc_tcpwm_pwm_config_t SERVO_1_config;
+extern const cy_stc_tcpwm_pwm_config_t SERVO_2_config;
 
 void init_cycfg_peripherals(void);
 
